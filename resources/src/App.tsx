@@ -1,11 +1,16 @@
 import React from "react";
-import { Button } from "@/components/__commons";
+import { QueryClientProvider } from "react-query";
+
+import { Router } from "./core/routes";
+import { queryClient } from "./core/config/react-query";
+import { AuthProvider } from "./core/providers";
 
 export function App() {
-    return (
-        <div>
-            <h1>Laravel + React</h1>
-            <Button />
-        </div>
-    );
+  return (
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
