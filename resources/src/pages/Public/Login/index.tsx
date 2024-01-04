@@ -1,13 +1,10 @@
-import { useAuth } from "@/core/providers";
+import React, { ChangeEvent, useState } from "react";
 import { useLogin } from "@/core/services/auth";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
+
   const loginMutation = useLogin();
 
   async function handleSubmit(e: ChangeEvent<HTMLFormElement>) {
@@ -18,12 +15,6 @@ export default function LoginPage() {
       password,
     });
   }
-
-  useEffect(() => {
-    isAuthenticated().then(() => navigate("/app"));
-  }, []);
-
-  if (user !== null) return <div>Carregando...</div>;
 
   return (
     <div>
