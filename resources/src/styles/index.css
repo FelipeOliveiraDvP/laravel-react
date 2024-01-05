@@ -1,3 +1,7 @@
-html {
-  background-color: red;
+html,
+body,
+#root {
+  height: 100%;
+  color: var(--mantine-color-dark-9);
+  background-color: var(--mantine-color-gray-1);
 }

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useLogout } from "@/core/services/auth";
 import { useAuth } from "@/core/providers";
+import { PageLoader } from "@/components/__commons";
 
 export function PrivateLayout() {
   const { user, isAuthenticated } = useAuth();
@@ -16,7 +17,7 @@ export function PrivateLayout() {
     isAuthenticated().catch(() => navigate("/"));
   }, []);
 
-  if (user === null) return <div>Carregando...</div>;
+  if (user === null) return <PageLoader />;
 
   return (
     <div>

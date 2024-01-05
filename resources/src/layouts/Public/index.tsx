@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/core/providers";
+import { PageLoader } from "@/components/__commons";
+import classes from "./styles.module.css";
 
 export function PublicLayout() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -13,11 +15,10 @@ export function PublicLayout() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <div>Carregando...</div>;
+  if (loading) return <PageLoader />;
 
   return (
-    <div>
-      <h1>Layout Público</h1>
+    <div className={classes.wrapper}>
       <Outlet />
     </div>
   );

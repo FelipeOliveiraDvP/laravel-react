@@ -110,5 +110,6 @@
     "paths": {
       "@/*": ["*"]
     }
-  }
+  },
+  "include": ["resources/src/**/*"]
 }
