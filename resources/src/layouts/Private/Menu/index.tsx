@@ -1,5 +1,5 @@
 import React from "react";
-import { Group, Code, ScrollArea, rem } from "@mantine/core";
+import { Group, ScrollArea } from "@mantine/core";
 import {
   IconNotes,
   IconCalendarStats,
@@ -14,6 +14,7 @@ import {
 // import { Logo } from './Logo';
 import classes from "./styles.module.css";
 import { MenuItem } from "../Item";
+import { UserInfo } from "../UserInfo";
 
 const mockdata = [
   { label: "Dashboard", icon: IconGauge },
@@ -68,8 +69,7 @@ export function Menu() {
       </ScrollArea>
 
       <div className={classes.footer}>
-        {/* <UserButton /> */}
-        User Info
+        <UserInfo />
       </div>
     </nav>
   );
