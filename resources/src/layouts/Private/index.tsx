@@ -1,13 +1,16 @@
 import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useLogout } from "@/core/services/auth";
-import { useAuth } from "@/core/providers";
+import { AppShell } from "@mantine/core";
+
+import { Menu } from "./Menu";
 import { PageLoader } from "@/components/__commons";
+import { useAuth } from "@/core/providers";
+import { useLogout } from "@/core/services/auth";
 
 export function PrivateLayout() {
   const { user, isAuthenticated } = useAuth();
-  const navigate = useNavigate();
   const logoutMutation = useLogout();
+  const navigate = useNavigate();
 
   async function handleLogout() {
     await logoutMutation.mutateAsync();
@@ -20,17 +23,22 @@ export function PrivateLayout() {
   if (user === null) return <PageLoader />;
 
   return (
-    <div>
-      <h1>Layout Privado</h1>
-      <nav>
-        <button
-          onClick={() => handleLogout()}
-          disabled={logoutMutation.isLoading}
-        >
-          Sair
-        </button>
-      </nav>
-      <Outlet />
-    </div>
+    <AppShell
+      layout="alt"
+      padding="md"
+      header={{ height: 58 }}
+      navbar={{
+        width: 300,
+        breakpoint: "sm",
+      }}
+    >
+      <AppShell.Header>Header</AppShell.Header>
+      <AppShell.Navbar>
+        <Menu />
+      </AppShell.Navbar>
+      <AppShell.Main>
+        <Outlet />
+      </AppShell.Main>
+    </AppShell>
   );
 }
