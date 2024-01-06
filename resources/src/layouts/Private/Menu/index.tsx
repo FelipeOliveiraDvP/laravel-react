@@ -1,57 +1,47 @@
 import React from "react";
 import { Group, ScrollArea, rem } from "@mantine/core";
 import {
-  IconNotes,
-  IconCalendarStats,
   IconGauge,
-  IconPresentationAnalytics,
-  IconFileAnalytics,
-  IconAdjustments,
-  IconLock,
+  IconUserDollar,
+  IconCalendarMonth,
+  IconLayoutKanban,
+  IconGavel,
+  IconUsers,
 } from "@tabler/icons-react";
 import { Logo } from "../Logo";
 import { MenuItem } from "../Item";
 import { UserInfo } from "../UserInfo";
 import classes from "./styles.module.css";
 
-const mockdata = [
-  { label: "Dashboard", icon: IconGauge },
+const menuItems = [
+  { label: "Dashboard", link: "/app", icon: IconGauge },
   {
-    label: "Market news",
-    icon: IconNotes,
-    initiallyOpened: true,
-    links: [
-      { label: "Overview", link: "/" },
-      { label: "Forecasts", link: "/" },
-      { label: "Outlook", link: "/" },
-      { label: "Real time", link: "/" },
-    ],
+    label: "Clientes",
+    link: "/app/customers",
+    icon: IconUserDollar,
   },
   {
-    label: "Releases",
-    icon: IconCalendarStats,
-    links: [
-      { label: "Upcoming releases", link: "/" },
-      { label: "Previous releases", link: "/" },
-      { label: "Releases schedule", link: "/" },
-    ],
+    label: "Agenda",
+    link: "/app/scheduler",
+    icon: IconCalendarMonth,
   },
-  { label: "Analytics", icon: IconPresentationAnalytics },
-  { label: "Contracts", icon: IconFileAnalytics },
-  { label: "Settings", icon: IconAdjustments },
+  { label: "Tarefas", link: "/app/tasks", icon: IconLayoutKanban },
+  { label: "Processos", link: "/app/processes", icon: IconGavel },
   {
-    label: "Security",
-    icon: IconLock,
+    label: "Usuários",
+    link: "/app/users",
+    icon: IconUsers,
     links: [
-      { label: "Enable 2FA", link: "/" },
-      { label: "Change password", link: "/" },
-      { label: "Recovery codes", link: "/" },
+      { label: "Todos", link: "/app/users" },
+      { label: "Grupos", link: "/app/users/groups" },
     ],
   },
 ];
 
 export function Menu() {
-  const links = mockdata.map((item) => <MenuItem {...item} key={item.label} />);
+  const links = menuItems.map((item) => (
+    <MenuItem {...item} key={item.label} />
+  ));
 
   return (
     <nav className={classes.navbar}>

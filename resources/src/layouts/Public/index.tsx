@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/core/providers";
 import { PageLoader } from "@/components/__commons";
@@ -19,7 +19,9 @@ export function PublicLayout() {
 
   return (
     <div className={classes.wrapper}>
-      <Outlet />
+      <Suspense fallback={<PageLoader />}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 }

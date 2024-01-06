@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { AppShell } from "@mantine/core";
+import { AppShell, Button, Flex, Group, rem } from "@mantine/core";
 
 import { PageLoader } from "@/components/__commons";
 import { Menu } from "./Menu";
 import { useAuth } from "@/core/providers";
 import { useLogout } from "@/core/services/auth";
+import { IconLogout } from "@tabler/icons-react";
 
 export function PrivateLayout() {
   const { user, isAuthenticated } = useAuth();
@@ -32,12 +33,27 @@ export function PrivateLayout() {
         breakpoint: "sm",
       }}
     >
-      <AppShell.Header>Header</AppShell.Header>
+      <AppShell.Header>
+        <Flex align="center" justify="flex-end" h="100%" px="md">
+          <Button
+            onClick={() => handleLogout()}
+            variant="outline"
+            color="red"
+            size="compact-sm"
+            rightSection={<IconLogout size={16} />}
+            loading={logoutMutation.isLoading}
+          >
+            Sair
+          </Button>
+        </Flex>
+      </AppShell.Header>
       <AppShell.Navbar>
         <Menu />
       </AppShell.Navbar>
       <AppShell.Main>
-        <Outlet />
+        <Suspense fallback={<PageLoader />}>
+          <Outlet />
+        </Suspense>
       </AppShell.Main>
     </AppShell>
   );

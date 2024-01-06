@@ -10,10 +10,12 @@ import {
 } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
 import classes from "./styles.module.css";
+import { Link, useNavigate } from "react-router-dom";
 
 interface MenuItemProps {
   icon: React.FC<any>;
   label: string;
+  link: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
 }
@@ -21,27 +23,32 @@ interface MenuItemProps {
 export function MenuItem({
   icon: Icon,
   label,
+  link,
   initiallyOpened,
   links,
 }: MenuItemProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
-  const items = (hasLinks ? links : []).map((link) => (
-    <Text<"a">
-      component="a"
+  const navigate = useNavigate();
+
+  const items = (hasLinks ? links : []).map((item) => (
+    <Text
+      component={Link}
       className={classes.link}
-      href={link.link}
-      key={link.label}
-      onClick={(event) => event.preventDefault()}
+      to={item.link}
+      key={item.link}
     >
-      {link.label}
+      {item.label}
     </Text>
   ));
 
   return (
     <>
       <UnstyledButton
-        onClick={() => setOpened((o) => !o)}
+        onClick={() => {
+          !hasLinks && navigate(link);
+          setOpened((o) => !o);
+        }}
         className={classes.control}
       >
         <Group justify="space-between" gap={0}>
@@ -68,21 +75,3 @@ export function MenuItem({
     </>
   );
 }
-
-// const mockdata = {
-//   label: 'Releases',
-//   icon: IconCalendarStats,
-//   links: [
-//     { label: 'Upcoming releases', link: '/' },
-//     { label: 'Previous releases', link: '/' },
-//     { label: 'Releases schedule', link: '/' },
-//   ],
-// };
-
-// export function NavbarMenuItem() {
-//   return (
-//     <Box mih={220} p="md">
-//       <MenuItem {...mockdata} />
-//     </Box>
-//   );
-// }
