@@ -1,5 +1,5 @@
 import React from "react";
-import { Group, ScrollArea } from "@mantine/core";
+import { Group, ScrollArea, rem } from "@mantine/core";
 import {
   IconNotes,
   IconCalendarStats,
@@ -9,12 +9,10 @@ import {
   IconAdjustments,
   IconLock,
 } from "@tabler/icons-react";
-// import { UserButton } from '../UserButton/UserButton';
-// import { LinksGroup } from '../NavbarLinksGroup/NavbarLinksGroup';
-// import { Logo } from './Logo';
-import classes from "./styles.module.css";
+import { Logo } from "../Logo";
 import { MenuItem } from "../Item";
 import { UserInfo } from "../UserInfo";
+import classes from "./styles.module.css";
 
 const mockdata = [
   { label: "Dashboard", icon: IconGauge },
@@ -59,8 +57,7 @@ export function Menu() {
     <nav className={classes.navbar}>
       <div className={classes.header}>
         <Group justify="space-between">
-          {/* <Logo style={{ width: rem(120) }} /> */}
-          Logo
+          <Logo style={{ width: rem(120) }} />
         </Group>
       </div>
 

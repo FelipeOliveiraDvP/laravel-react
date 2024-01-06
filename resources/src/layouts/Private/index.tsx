@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { AppShell } from "@mantine/core";
 
-import { Menu } from "./Menu";
 import { PageLoader } from "@/components/__commons";
+import { Menu } from "./Menu";
 import { useAuth } from "@/core/providers";
 import { useLogout } from "@/core/services/auth";
 
@@ -26,7 +26,7 @@ export function PrivateLayout() {
     <AppShell
       layout="alt"
       padding="md"
-      header={{ height: 58 }}
+      header={{ height: 64 }}
       navbar={{
         width: 300,
         breakpoint: "sm",
