@@ -13,6 +13,7 @@ import {
 // import { LinksGroup } from '../NavbarLinksGroup/NavbarLinksGroup';
 // import { Logo } from './Logo';
 import classes from "./styles.module.css";
+import { MenuItem } from "../Item";
 
 const mockdata = [
   { label: "Dashboard", icon: IconGauge },
@@ -51,7 +52,7 @@ const mockdata = [
 ];
 
 export function Menu() {
-  // const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+  const links = mockdata.map((item) => <MenuItem {...item} key={item.label} />);
 
   return (
     <nav className={classes.navbar}>
@@ -63,8 +64,7 @@ export function Menu() {
       </div>
 
       <ScrollArea className={classes.links}>
-        {/* <div className={classes.linksInner}>{links}</div> */}
-        Links
+        <div className={classes.linksInner}>{links}</div>
       </ScrollArea>
 
       <div className={classes.footer}>
