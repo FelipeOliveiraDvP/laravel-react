@@ -1,24 +1,17 @@
-export interface User {
+import { BaseQuery, PaginatedResponse, Timestamps } from "@/core/types";
+
+export interface User extends Timestamps {
   id: number;
   name: string;
   email: string;
-  created_at: string;
-  updated_at: string;
 }
 
-export interface UserListQuery {
+export type UserListQuery = BaseQuery & {
   name?: string;
   email?: string;
-  page?: number;
-}
+};
 
-export interface UserListResponse {
-  items: User[];
-  pagination: {
-    current: number;
-    total: number;
-  };
-}
+export type UserListResponse = PaginatedResponse<User>;
 
 export interface UserRequest {
   id?: number;
