@@ -31,10 +31,6 @@ const menuItems = [
     label: "Usuários",
     link: "/app/users",
     icon: IconUsers,
-    links: [
-      { label: "Todos", link: "/app/users" },
-      { label: "Grupos", link: "/app/users/groups" },
-    ],
   },
 ];
 
