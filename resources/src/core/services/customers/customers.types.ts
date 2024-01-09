@@ -1,17 +1,46 @@
-import { BaseQuery, PaginatedResponse, Timestamps } from "@/core/types";
+import { BaseQuery, PaginatedResponse } from "@/core/types";
 
-export interface Customer extends Timestamps {
+export interface Customer {
   id: number;
   name: string;
-  phone: string;
   document: string;
-  birth_date: string;
-  zip: string;
-  street: string;
-  number: string;
-  city: string;
-  state: string;
-  complement?: string;
+  email: string;
+  phone: string;
+  birth_date: string | null;
+  address: {
+    zip: string;
+    street: string;
+    number: string;
+    city: string;
+    state: string;
+    complement?: string;
+  };
+  indication?: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string | null;
+}
+
+export interface CustomerRequest {
+  id?: number;
+  name: string;
+  document: string;
+  email: string;
+  phone: string;
+  birth_date: Date | null;
+  address: {
+    zip: string;
+    street: string;
+    number: string;
+    city: string;
+    state: string;
+    complement?: string;
+  };
+  is_indication?: boolean;
   indication?: {
     name: string;
     email: string;
@@ -25,10 +54,3 @@ export type CustomerListQuery = BaseQuery & {
 };
 
 export type CustomerListResponse = PaginatedResponse<Customer>;
-
-export type CustomerRequest = Omit<
-  Customer,
-  "id" | "created_at" | "updated_at"
-> & {
-  id?: number;
-};

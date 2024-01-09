@@ -2,17 +2,26 @@ import React, { useEffect } from "react";
 import {
   Button,
   Divider,
+  Flex,
   Grid,
   Group,
   Modal,
   ModalProps,
+  Select,
   Stack,
+  Switch,
+  Text,
   TextInput,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
-import { Customer, CustomerRequest } from "@/core/services/customers";
+import dayjs from "dayjs";
+import {
+  Customer,
+  CustomerRequest,
+  statesOptions,
+} from "@/core/services/customers";
 
 type Props = ModalProps & {
   customer?: Customer;
@@ -21,13 +30,24 @@ type Props = ModalProps & {
 const schema = Yup.object().shape({
   name: Yup.string().required("Campo Obrigatório"),
   document: Yup.string().required("Campo Obrigatório"),
-  phone: Yup.string().required("Campo Obrigatório"),
-  birth_date: Yup.string().required("Campo Obrigatório"),
-  zip: Yup.string().required("Campo Obrigatório"),
-  street: Yup.string().required("Campo Obrigatório"),
-  number: Yup.string().required("Campo Obrigatório"),
-  city: Yup.string().required("Campo Obrigatório"),
-  state: Yup.string().required("Campo Obrigatório"),
+  email: Yup.string()
+    .email("Informe um e-mail válido")
+    .required("Campo Obrigatório"),
+  phone: Yup.string()
+    .length(11, "Informe um telefone válido")
+    .required("Campo Obrigatório"),
+  birth_date: Yup.date()
+    .required("Campo Obrigatório")
+    .max(new Date(), "Você não pode selecionar uma data futura"),
+  address: Yup.object().shape({
+    zip: Yup.string().min(8, "Informe um CEP válido"),
+    street: Yup.string().required("Campo Obrigatório"),
+    number: Yup.string().required("Campo Obrigatório"),
+    city: Yup.string().required("Campo Obrigatório"),
+    state: Yup.string()
+      .length(2, "Informe uma UF válida")
+      .required("Campo Obrigatório"),
+  }),
 });
 
 export function CustomerModal({ customer, ...props }: Props) {
@@ -35,23 +55,30 @@ export function CustomerModal({ customer, ...props }: Props) {
     validate: yupResolver(schema),
     initialValues: {
       name: "",
-      phone: "",
       document: "",
-      birth_date: "",
-      zip: "",
-      street: "",
-      number: "",
-      city: "",
-      state: "",
-      complement: "",
+      email: "",
+      phone: "",
+      birth_date: null,
+      address: {
+        zip: "",
+        street: "",
+        number: "",
+        city: "",
+        state: "",
+        complement: "",
+      },
+      is_indication: false,
+      indication: {
+        name: "",
+        email: "",
+        phone: "",
+      },
     },
   });
 
   async function handleSave(values: CustomerRequest) {
-    if (customer) {
-      console.log("Editar: ", values);
-    } else {
-    }
+    console.log("Cliente: ", values);
+
     handleClose();
   }
 
@@ -62,7 +89,11 @@ export function CustomerModal({ customer, ...props }: Props) {
 
   useEffect(() => {
     if (customer) {
-      form.setValues({ ...customer });
+      form.setValues({
+        ...customer,
+        birth_date: dayjs(customer.birth_date).toDate(),
+        is_indication: !!customer.indication,
+      });
     }
   }, [customer]);
 
@@ -77,7 +108,13 @@ export function CustomerModal({ customer, ...props }: Props) {
       <form onSubmit={form.onSubmit((values) => handleSave(values))}>
         <Stack gap="md">
           <Grid>
-            <Grid.Col span={{ base: 12, md: 6 }}>
+            <Grid.Col span={12}>
+              <Divider mb="sm" />
+              <Text fw={500} size="sm">
+                Dados Gerais
+              </Text>
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, md: 6, lg: 8 }}>
               <TextInput
                 {...form.getInputProps("name")}
                 label="Nome"
@@ -85,7 +122,7 @@ export function CustomerModal({ customer, ...props }: Props) {
                 withAsterisk
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 6 }}>
+            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
               <TextInput
                 {...form.getInputProps("document")}
                 label="CPF"
@@ -93,7 +130,7 @@ export function CustomerModal({ customer, ...props }: Props) {
                 withAsterisk
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 6 }}>
+            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
               <TextInput
                 {...form.getInputProps("phone")}
                 label="Telefone"
@@ -101,7 +138,15 @@ export function CustomerModal({ customer, ...props }: Props) {
                 withAsterisk
               />
             </Grid.Col>
-            <Grid.Col span={{ base: 12, md: 6 }}>
+            <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+              <TextInput
+                {...form.getInputProps("email")}
+                label="E-mail"
+                placeholder="cliente@exemplo.com"
+                withAsterisk
+              />
+            </Grid.Col>
+            <Grid.Col span={{ base: 12, lg: 4 }}>
               <DateInput
                 {...form.getInputProps("birth_date")}
                 label="Data de Nascimento"
@@ -111,9 +156,16 @@ export function CustomerModal({ customer, ...props }: Props) {
                 clearable
               />
             </Grid.Col>
+
+            <Grid.Col span={12}>
+              <Divider mb="sm" />
+              <Text fw={600} size="sm">
+                Endereço
+              </Text>
+            </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
               <TextInput
-                {...form.getInputProps("zip")}
+                {...form.getInputProps("address.zip")}
                 label="CEP"
                 placeholder="EX: 00000-000"
                 withAsterisk
@@ -121,7 +173,7 @@ export function CustomerModal({ customer, ...props }: Props) {
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 8 }}>
               <TextInput
-                {...form.getInputProps("street")}
+                {...form.getInputProps("address.street")}
                 label="Endereço"
                 placeholder="EX: Av. Paulista"
                 withAsterisk
@@ -129,7 +181,7 @@ export function CustomerModal({ customer, ...props }: Props) {
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
               <TextInput
-                {...form.getInputProps("number")}
+                {...form.getInputProps("address.number")}
                 label="Número"
                 placeholder="EX: 000"
                 withAsterisk
@@ -137,27 +189,69 @@ export function CustomerModal({ customer, ...props }: Props) {
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
               <TextInput
-                {...form.getInputProps("city")}
+                {...form.getInputProps("address.city")}
                 label="Cidade"
                 placeholder="EX: São Paulo"
                 withAsterisk
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
-              <TextInput
-                {...form.getInputProps("state")}
+              <Select
+                {...form.getInputProps("address.state")}
                 label="Estado"
                 placeholder="EX: SP"
                 withAsterisk
+                data={statesOptions}
+                clearable
+                searchable
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12 }}>
               <TextInput
-                {...form.getInputProps("complement")}
+                {...form.getInputProps("address.complement")}
                 label="Complemento"
                 placeholder="EX: Sala 54"
               />
             </Grid.Col>
+            <Grid.Col span={12}>
+              <Divider mb="sm" />
+              <Flex justify="space-between" align="center">
+                <Text fw={600} size="sm">
+                  Cliente por indicação?
+                </Text>
+                <Switch
+                  {...form.getInputProps("is_indication", { type: "checkbox" })}
+                />
+              </Flex>
+            </Grid.Col>
+            {form.values.is_indication && (
+              <>
+                <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                  <TextInput
+                    {...form.getInputProps("indication.name")}
+                    label="Nome de quem indicou"
+                    placeholder="exemplo@email.com"
+                    withAsterisk
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                  <TextInput
+                    {...form.getInputProps("indication.phone")}
+                    label="Telefone"
+                    placeholder="EX: (00) 0000 0000"
+                    withAsterisk
+                  />
+                </Grid.Col>
+                <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
+                  <TextInput
+                    {...form.getInputProps("indication.email")}
+                    label="E-mail"
+                    placeholder="cliente@exemplo.com"
+                    withAsterisk
+                  />
+                </Grid.Col>
+              </>
+            )}
           </Grid>
 
           <Divider />
