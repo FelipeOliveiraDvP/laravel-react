@@ -25,14 +25,17 @@ export default function CustomersPage() {
 
   return (
     <Stack>
-      <CustomersFilters onChange={setParams} />
+      <Flex justify="space-between">
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Clientes</Text>
+        </Breadcrumbs>
+        <CustomersFilters onChange={setParams} />
+      </Flex>
+
       <Paper p="md" withBorder>
         <Stack>
-          <Flex justify="space-between" align="center">
-            <Breadcrumbs>
-              <AnchorLink href="/app">Dashboard</AnchorLink>
-              <Text fw="bolder">Clientes</Text>
-            </Breadcrumbs>
+          <Flex justify="flex-end" align="center">
             <Button onClick={() => open()}>Novo Cliente</Button>
           </Flex>
 

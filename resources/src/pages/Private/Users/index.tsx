@@ -3,6 +3,7 @@ import {
   Breadcrumbs,
   Button,
   Flex,
+  Group,
   Paper,
   Portal,
   Stack,
@@ -46,14 +47,17 @@ export default function UsersPage() {
 
   return (
     <Stack>
-      <UsersFilters onChange={setParams} />
+      <Group justify="space-between">
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Usuários</Text>
+        </Breadcrumbs>
+        <UsersFilters onChange={setParams} />
+      </Group>
+
       <Paper p="md" withBorder>
         <Stack>
-          <Flex justify="space-between" align="center">
-            <Breadcrumbs>
-              <AnchorLink href="/app">Dashboard</AnchorLink>
-              <Text fw="bolder">Usuários</Text>
-            </Breadcrumbs>
+          <Flex justify="flex-end" align="center">
             <Button onClick={() => open()}>Novo Usuário</Button>
           </Flex>
 

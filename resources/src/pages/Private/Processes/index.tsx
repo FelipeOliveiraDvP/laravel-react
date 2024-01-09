@@ -25,14 +25,16 @@ export default function ProcessesPage() {
 
   return (
     <Stack>
-      <ProcessesFilters onChange={setParams} />
+      <Flex justify="space-between">
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Processos</Text>
+        </Breadcrumbs>
+        <ProcessesFilters onChange={setParams} />
+      </Flex>
       <Paper p="md" withBorder>
         <Stack>
-          <Flex justify="space-between" align="center">
-            <Breadcrumbs>
-              <AnchorLink href="/app">Dashboard</AnchorLink>
-              <Text fw="bolder">Processos</Text>
-            </Breadcrumbs>
+          <Flex justify="end" align="center">
             <Button onClick={() => open()}>Novo Processo</Button>
           </Flex>
 
