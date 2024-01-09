@@ -2,7 +2,7 @@ import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ActionIcon, Group } from "@mantine/core";
 import { Table } from "@/components/__commons";
-import { User, UserListResponse } from "@/core/services/users";
+import { User, UserListResponse, userRoles } from "@/core/services/users";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 interface Props {
@@ -23,6 +23,11 @@ export function UsersList({ data, loading, onSelectUser, onPaginate }: Props) {
     columnHelper.accessor("email", {
       id: "email",
       header: "E-mail",
+    }),
+    columnHelper.accessor("role", {
+      id: "role",
+      header: "Tipo de Usuário",
+      cell: ({ getValue }) => userRoles[getValue()],
     }),
     columnHelper.accessor((row) => row, {
       id: "actions",

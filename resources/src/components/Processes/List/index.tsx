@@ -1,7 +1,7 @@
 import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { ActionIcon, Badge, Group } from "@mantine/core";
-import { IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconEdit, IconEye, IconTrash } from "@tabler/icons-react";
 import { Table } from "@/components/__commons";
 import {
   Process,
@@ -11,15 +11,23 @@ import {
   processesSituationColor,
   processesSituations,
 } from "@/core/services/processes";
+import { Link } from "react-router-dom";
 
 interface Props {
   data?: ProcessResponseType;
   loading?: boolean;
-  onSelect: (item: Process) => void;
+  preview?: boolean;
+  onSelect?: (item: Process) => void;
   onPaginate?: (page: number) => void;
 }
 
-export function ProcessesList({ data, loading, onSelect, onPaginate }: Props) {
+export function ProcessesList({
+  data,
+  loading,
+  preview,
+  onSelect,
+  onPaginate,
+}: Props) {
   const columnHelper = createColumnHelper<Process>();
 
   const columns = [
@@ -52,24 +60,33 @@ export function ProcessesList({ data, loading, onSelect, onPaginate }: Props) {
     columnHelper.accessor((row) => row, {
       id: "actions",
       header: "",
-      cell: ({ getValue }) => (
-        <Group justify="flex-end" gap="xs" align="center">
+      cell: ({ getValue }) =>
+        preview ? (
           <ActionIcon
             variant="transparent"
             size="lg"
-            onClick={() => onSelect(getValue())}
+            onClick={() => onSelect && onSelect(getValue())}
           >
-            <IconEdit />
+            <IconEye />
           </ActionIcon>
-          <ActionIcon
-            variant="transparent"
-            size="lg"
-            onClick={() => console.log("Remover: ", getValue())}
-          >
-            <IconTrash />
-          </ActionIcon>
-        </Group>
-      ),
+        ) : (
+          <Group justify="flex-end" gap="xs" align="center">
+            <ActionIcon
+              variant="transparent"
+              size="lg"
+              onClick={() => onSelect && onSelect(getValue())}
+            >
+              <IconEdit />
+            </ActionIcon>
+            <ActionIcon
+              variant="transparent"
+              size="lg"
+              onClick={() => console.log("Remover: ", getValue())}
+            >
+              <IconTrash />
+            </ActionIcon>
+          </Group>
+        ),
     }),
   ];
 

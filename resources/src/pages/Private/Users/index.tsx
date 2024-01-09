@@ -3,6 +3,7 @@ import {
   Breadcrumbs,
   Button,
   Flex,
+  Group,
   Paper,
   Portal,
   Stack,
@@ -19,12 +20,14 @@ const mockData: User[] = [
     id: 1,
     name: "Usuário 1",
     email: "usuario1@email.com",
+    role: "admin",
     created_at: "2024-01-01",
     updated_at: "2024-01-01",
   },
   {
     id: 2,
     name: "Usuário 2",
+    role: "user",
     email: "usuario1@email.com",
     created_at: "2024-01-01",
     updated_at: "2024-01-01",
@@ -33,6 +36,7 @@ const mockData: User[] = [
     id: 3,
     name: "Usuário 3",
     email: "usuario1@email.com",
+    role: "user",
     created_at: "2024-01-01",
     updated_at: "2024-01-01",
   },
@@ -46,14 +50,17 @@ export default function UsersPage() {
 
   return (
     <Stack>
-      <UsersFilters onChange={setParams} />
+      <Group justify="space-between">
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Usuários</Text>
+        </Breadcrumbs>
+        <UsersFilters onChange={setParams} />
+      </Group>
+
       <Paper p="md" withBorder>
         <Stack>
-          <Flex justify="space-between" align="center">
-            <Breadcrumbs>
-              <AnchorLink href="/app">Dashboard</AnchorLink>
-              <Text fw="bolder">Usuários</Text>
-            </Breadcrumbs>
+          <Flex justify="flex-end" align="center">
             <Button onClick={() => open()}>Novo Usuário</Button>
           </Flex>
 

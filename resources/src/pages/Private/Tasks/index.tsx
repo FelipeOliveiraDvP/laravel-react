@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Group, Portal } from "@mantine/core";
+import { Breadcrumbs, Flex, Group, Portal, Stack, Text } from "@mantine/core";
 import {
   DragDropContext,
   DraggableLocation,
@@ -17,6 +17,7 @@ import {
   taskStatus,
 } from "@/core/services/tasks";
 import { BaseQuery } from "@/core/types";
+import { AnchorLink } from "@/components/__commons";
 
 export default function TasksPage() {
   const [params, setParams] = useState<BaseQuery>();
@@ -73,7 +74,13 @@ export default function TasksPage() {
   }, []);
 
   return (
-    <>
+    <Stack>
+      <Flex>
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Tarefas</Text>
+        </Breadcrumbs>
+      </Flex>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Group align="flex-start">
           {Object.entries(taskStatus).map(([droppableId, title]) => (
@@ -113,6 +120,6 @@ export default function TasksPage() {
           }}
         />
       </Portal>
-    </>
+    </Stack>
   );
 }

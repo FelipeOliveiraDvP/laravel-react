@@ -1,6 +1,6 @@
 import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { ActionIcon, Group } from "@mantine/core";
+import { ActionIcon, Badge, Group } from "@mantine/core";
 import { Table } from "@/components/__commons";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { Customer, CustomerListResponse } from "@/core/services/customers";
@@ -31,6 +31,12 @@ export function CustomersList({ data, loading, onSelect, onPaginate }: Props) {
     columnHelper.accessor("indication", {
       id: "indication",
       header: "Indicação",
+      cell: ({ getValue }) =>
+        getValue() ? (
+          <Badge color="lime">Sim</Badge>
+        ) : (
+          <Badge color="gray">Não</Badge>
+        ),
     }),
     columnHelper.accessor((row) => row, {
       id: "actions",

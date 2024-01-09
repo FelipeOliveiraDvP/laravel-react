@@ -1,8 +1,9 @@
 import React from "react";
 import { Button, Group, Input, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { UserListQuery } from "@/core/services/users";
+import { UserListQuery, UserRolesType, userRoles } from "@/core/services/users";
 import { IconSearch } from "@tabler/icons-react";
+import { getOptions } from "@/core/utils";
 
 interface Props {
   onChange: (values: UserListQuery) => void;
@@ -11,6 +12,7 @@ interface Props {
 const initialValues: UserListQuery = {
   name: "",
   email: "",
+  role: null,
   page: 1,
 };
 
@@ -46,6 +48,18 @@ export function UsersFilters({ onChange }: Props) {
           rightSection={<IconSearch />}
           onChange={(e) =>
             handleChange({ ...form.values, email: e.target.value })
+          }
+        />
+        <Select
+          {...form.getInputProps("role")}
+          placeholder="Tipo de usuário"
+          data={getOptions(userRoles)}
+          clearable
+          onChange={(value) =>
+            handleChange({
+              ...form.values,
+              role: value as UserRolesType,
+            })
           }
         />
         <Button variant="outline" type="reset" onClick={handleReset}>

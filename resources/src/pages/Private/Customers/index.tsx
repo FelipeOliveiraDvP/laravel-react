@@ -25,19 +25,22 @@ export default function CustomersPage() {
 
   return (
     <Stack>
-      <CustomersFilters onChange={setParams} />
+      <Flex justify="space-between">
+        <Breadcrumbs>
+          <AnchorLink href="/app">Dashboard</AnchorLink>
+          <Text fw="bolder">Clientes</Text>
+        </Breadcrumbs>
+        <CustomersFilters onChange={setParams} />
+      </Flex>
+
       <Paper p="md" withBorder>
         <Stack>
-          <Flex justify="space-between" align="center">
-            <Breadcrumbs>
-              <AnchorLink href="/app">Dashboard</AnchorLink>
-              <Text fw="bolder">Clientes</Text>
-            </Breadcrumbs>
+          <Flex justify="flex-end" align="center">
             <Button onClick={() => open()}>Novo Cliente</Button>
           </Flex>
 
           <CustomersList
-            data={{ items: [], pagination: { current: 1, total: 3 } }}
+            data={{ items: mockData, pagination: { current: 1, total: 3 } }}
             loading={false}
             onPaginate={(page) => setParams((params) => ({ ...params, page }))}
             onSelect={(value) => {
@@ -60,3 +63,45 @@ export default function CustomersPage() {
     </Stack>
   );
 }
+
+export const mockData: Customer[] = [
+  {
+    id: 1,
+    name: "Pedro Silveira",
+    document: "1111111",
+    email: "pedro.silveira@email.com",
+    birth_date: "1989-03-10",
+    phone: "111111",
+    address: {
+      zip: "00000",
+      street: "Rua D'avila",
+      number: "000",
+      city: "São Paulo",
+      state: "SP",
+    },
+    indication: {
+      name: "Paulo Rocha",
+      email: "paulo.rocha@email.com",
+      phone: "22222222",
+    },
+    created_at: "2024-01-09",
+    updated_at: "2024-01-09",
+  },
+  {
+    id: 2,
+    name: "Joaquin Alves de Souza",
+    document: "4545451",
+    email: "joaquin.alves@email.com",
+    birth_date: "1992-11-31",
+    phone: "45454",
+    address: {
+      zip: "00000",
+      street: "Rua D'avila",
+      number: "000",
+      city: "São Paulo",
+      state: "SP",
+    },
+    created_at: "2024-01-09",
+    updated_at: "2024-01-09",
+  },
+];
