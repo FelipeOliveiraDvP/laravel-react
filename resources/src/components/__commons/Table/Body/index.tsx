@@ -39,8 +39,7 @@ export function TableBody<T>({ table, columns, loading }: Props<T>) {
           <MantineTable.Td colSpan={columns.length}>
             <Center h={200}>
               <Stack align="center">
-                {/* <RiFolder3Line color="dimmed" size={48} /> */}
-                <IconFolderOpen size={48} color="dimmed" />
+                <IconFolderOpen size={48} color="gray" />
                 <Text c="dimmed">Não há dados</Text>
               </Stack>
             </Center>

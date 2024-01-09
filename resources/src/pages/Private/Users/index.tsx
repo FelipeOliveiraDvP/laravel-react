@@ -7,13 +7,11 @@ import {
   Portal,
   Stack,
   Text,
-  Title,
 } from "@mantine/core";
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { UsersFilters, UsersList } from "@/components/Users";
 import { User, UserListQuery } from "@/core/services/users";
 import { AnchorLink } from "@/components/__commons";
-import { IconHome } from "@tabler/icons-react";
 import { UserModal } from "@/components/Users/Modal";
 
 const mockData: User[] = [
