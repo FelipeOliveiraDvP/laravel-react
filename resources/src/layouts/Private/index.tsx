@@ -29,7 +29,7 @@ export function PrivateLayout() {
       padding="md"
       header={{ height: 64 }}
       navbar={{
-        width: 300,
+        width: 250,
         breakpoint: "sm",
       }}
     >
