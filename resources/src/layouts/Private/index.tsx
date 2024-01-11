@@ -9,7 +9,7 @@ import { useLogout } from "@/core/services/auth";
 import { IconLogout } from "@tabler/icons-react";
 
 export function PrivateLayout() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, authenticated } = useAuth();
   const logoutMutation = useLogout();
   const navigate = useNavigate();
 
@@ -18,8 +18,10 @@ export function PrivateLayout() {
   }
 
   useEffect(() => {
-    isAuthenticated().catch(() => navigate("/"));
-  }, []);
+    if (!authenticated || user === null) {
+      navigate("/");
+    }
+  }, [user, authenticated, navigate]);
 
   if (user === null) return <PageLoader />;
 

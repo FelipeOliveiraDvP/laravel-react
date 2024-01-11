@@ -9,8 +9,10 @@ export function useLogin() {
   const navigate = useNavigate();
 
   return useMutation(authService.login, {
-    onSuccess() {
-      onLogin(() => navigate("/app"));
+    onSuccess(data) {
+      onLogin(data, () => {
+        navigate("/app");
+      });
     },
     onError(error) {
       console.log(error);

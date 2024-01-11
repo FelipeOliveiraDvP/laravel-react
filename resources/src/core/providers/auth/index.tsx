@@ -1,46 +1,64 @@
-import React, { ReactNode, createContext, useContext, useState } from "react";
-import { AuthContextType } from "./types";
-import { User } from "@/core/services/users";
-import authService from "@/core/services/auth/auth.service";
+import React, {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-const initialValues: AuthContextType = {
-  user: null,
-  isAuthenticated: () => Promise.resolve(),
-  onLogin: () => {},
-  onLogout: () => {},
-};
+import { User } from "@/core/services/users";
+import { LoginResponse } from "@/core/services/auth";
+import { AuthContextType } from "./types";
+import {
+  getAuthToken,
+  getDecodedUser,
+  initialValues,
+  removeAuthToken,
+  setAuthToken,
+} from "./utils";
 
 const AuthContext = createContext<AuthContextType>(initialValues);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
 
-  async function handleLogin(callback: VoidFunction) {
-    const currentUser = await authService.profile();
+  async function handleLogin(data: LoginResponse, callback: VoidFunction) {
+    const currentUser = getDecodedUser(data.token);
 
-    setUser(currentUser);
-    callback();
+    if (currentUser !== null) {
+      setAuthToken(data.token);
+      setUser(currentUser);
+      setAuthenticated(true);
+      callback();
+    }
   }
 
   function handleLogout(callback: VoidFunction) {
+    removeAuthToken();
     setUser(null);
+    setAuthenticated(false);
     callback();
   }
 
-  async function isAuthenticated() {
-    try {
-      const currentUser = await authService.profile();
-      setUser(currentUser);
-    } catch (error) {
-      throw new Error(error as string);
+  useEffect(() => {
+    const token = getAuthToken();
+
+    if (token !== null) {
+      const currentUser = getDecodedUser(token);
+
+      if (currentUser !== null) {
+        setUser(currentUser);
+        setAuthenticated(true);
+      }
     }
-  }
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        isAuthenticated,
+        authenticated,
         onLogin: handleLogin,
         onLogout: handleLogout,
       }}
@@ -55,3 +73,4 @@ export function useAuth(): AuthContextType {
 }
 
 export * from "./types";
+export * from "./utils";

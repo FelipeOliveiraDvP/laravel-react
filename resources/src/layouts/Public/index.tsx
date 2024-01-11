@@ -8,17 +8,14 @@ import background from "@/assets/background.jpeg";
 import logo from "@/assets/logo.png";
 
 export function PublicLayout() {
-  const [loading, setLoading] = useState<boolean>(true);
-  const { isAuthenticated } = useAuth();
+  const { user, authenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    isAuthenticated()
-      .then(() => navigate("/app"))
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) return <PageLoader />;
+    if (authenticated || user !== null) {
+      navigate(-1);
+    }
+  }, [user, authenticated, navigate]);
 
   return (
     <Grid
