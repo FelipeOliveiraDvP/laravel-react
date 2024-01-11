@@ -1,9 +1,11 @@
 import React from "react";
 import {
   Button,
+  Center,
   Container,
   Paper,
   PasswordInput,
+  Stack,
   Text,
   TextInput,
   Title,
@@ -36,40 +38,41 @@ export default function LoginPage() {
   }
 
   return (
-    <Container size={420} my={40}>
-      <Title ta="center" className={classes.title}>
-        Bem Vindo!
-      </Title>
-      <Text c="dimmed" size="sm" ta="center" mt={5}>
-        Informe seu usuário e senha para acessar a plataforma.
-      </Text>
-
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
-        <form onSubmit={form.onSubmit(handleSubmit)}>
-          <TextInput
-            label="E-mail"
-            placeholder="email@exemplo.com"
-            withAsterisk
-            {...form.getInputProps("email")}
-          />
-          <PasswordInput
-            label="Senha"
-            placeholder="********"
-            withAsterisk
-            mt="md"
-            {...form.getInputProps("password")}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            mt="xl"
-            rightSection={<IconLogin2 />}
-            loading={loginMutation.isLoading}
-          >
-            Entrar
-          </Button>
-        </form>
+    <Center h="100%">
+      <Paper withBorder w={420} shadow="md" p={30} mt={30} radius="md">
+        <Stack>
+          <Title ta="center" className={classes.title}>
+            Bem Vindo!
+          </Title>
+          <Text c="dimmed" size="sm" ta="center" mt={5}>
+            Informe seu usuário e senha para acessar a plataforma.
+          </Text>
+          <form onSubmit={form.onSubmit(handleSubmit)}>
+            <TextInput
+              label="E-mail"
+              placeholder="email@exemplo.com"
+              withAsterisk
+              {...form.getInputProps("email")}
+            />
+            <PasswordInput
+              label="Senha"
+              placeholder="********"
+              withAsterisk
+              mt="md"
+              {...form.getInputProps("password")}
+            />
+            <Button
+              type="submit"
+              fullWidth
+              mt="xl"
+              rightSection={<IconLogin2 />}
+              loading={loginMutation.isLoading}
+            >
+              Entrar
+            </Button>
+          </form>
+        </Stack>
       </Paper>
-    </Container>
+    </Center>
   );
 }
