@@ -13,6 +13,6 @@ export default {
   },
 
   async profile(): Promise<User> {
-    return api.get("/api/user");
+    return api.get("/api/users/me");
   },
 };
