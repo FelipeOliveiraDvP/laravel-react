@@ -23,8 +23,8 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper withBorder p="md">
             <Group justify="space-between" mb="md">
-              <Text fw={700}>Próximos eventos</Text>
-              <AnchorLink href="/app/scheduler">Ver eventos</AnchorLink>
+              <Text fw={700}>Agenda</Text>
+              <AnchorLink href="/app/scheduler">Ver agenda</AnchorLink>
             </Group>
             <DashboardCalendar />
           </Paper>
@@ -32,7 +32,7 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper withBorder p="md">
             <Group justify="space-between" mb="md">
-              <Text fw={700}>Tarefas prestes à vencer</Text>
+              <Text fw={700}>Tarefas à fazer</Text>
               <AnchorLink href="/app/tasks">Ver tarefas</AnchorLink>
             </Group>
             <Stack>
