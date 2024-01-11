@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomersController;
@@ -20,7 +21,17 @@ use App\Http\Controllers\UsersController;
 |
 */
 
-Route::middleware('auth:sanctum')->group(function () {
+Route::prefix('auth')->group(function () {
+  Route::post('login', [AuthController::class, 'login']);
+  Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
+Route::middleware('auth:api')->group(function () {
+  Route::prefix('auth')->group(function () {
+    Route::get('me', [AuthController::class, 'me']);
+    Route::post('logout', [AuthController::class, 'logout']);
+  });
+
   Route::prefix('dashboard')->group(function () {
     Route::get('events', [DashboardController::class, 'events']);
     Route::get('tasks', [DashboardController::class, 'tasks']);
@@ -61,6 +72,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/', [UsersController::class, 'store']);
     Route::put('/{id}', [UsersController::class, 'update']);
     Route::delete('/{id}', [UsersController::class, 'delete']);
-    Route::get('me', fn (Request $request) => $request->user());
   });
 });

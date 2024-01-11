@@ -5,14 +5,14 @@ import { csrfProtection } from "@/core/utils";
 
 export default {
   async login(data: LoginRequest): Promise<any> {
-    return csrfProtection().then(() => api.post("/api/login", data));
+    return csrfProtection().then(() => api.post("/api/auth/login", data));
   },
 
   async logout(): Promise<any> {
-    return api.post("/api/logout");
+    return api.post("/api/auth/logout");
   },
 
   async profile(): Promise<User> {
-    return api.get("/api/users/me");
+    return api.get("/api/auth/users/me");
   },
 };
