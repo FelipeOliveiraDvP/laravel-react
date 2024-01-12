@@ -24,10 +24,12 @@ class Process extends Model
    */
   protected $fillable = [
     'process_number',
-    'situation',
-    'expertise',
+    'situation_type',
+    'legal_type',
     'tribunal',
+    'is_probono',
     'amount',
+    'final_date',
     'customer_id',
     'user_id',
   ];
@@ -39,6 +41,8 @@ class Process extends Model
    */
   protected $casts = [
     'amount' => 'double',
+    'is_probono' => 'boolean',
+    'final_date' => 'date',
   ];
 
   /**

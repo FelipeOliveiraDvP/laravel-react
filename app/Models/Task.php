@@ -27,6 +27,7 @@ class Task extends Model
     'description',
     'index',
     'status',
+    'final_date',
     'user_id',
   ];
 
@@ -37,12 +38,13 @@ class Task extends Model
    */
   protected $casts = [
     'index' => 'integer',
+    'final_date' => 'integer',
   ];
 
   /**
    * Get the user associated with this event.
    */
-  public function user(): HasOne
+  public function responsible(): HasOne
   {
     return $this->hasOne(User::class);
   }

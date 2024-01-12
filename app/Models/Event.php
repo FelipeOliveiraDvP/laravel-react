@@ -4,12 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
-  use SoftDeletes;
-
   /**
    * The table name.
    *
@@ -25,9 +22,10 @@ class Event extends Model
   protected $fillable = [
     'title',
     'color',
-    'user_id',
+    'location',
     'start_date',
-    'end_date',
+    'final_date',
+    'user_id',
   ];
 
   /**
@@ -37,13 +35,13 @@ class Event extends Model
    */
   protected $casts = [
     'start_date' => 'datetime',
-    'end_date' => 'datetime',
+    'final_date' => 'datetime',
   ];
 
   /**
    * Get the user associated with this event.
    */
-  public function user(): HasOne
+  public function responsible(): HasOne
   {
     return $this->hasOne(User::class);
   }

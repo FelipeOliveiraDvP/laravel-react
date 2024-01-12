@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class PaymentOrder extends Model
 {
   use SoftDeletes;
 
@@ -15,7 +17,7 @@ class Customer extends Model
    *
    * @var array<int, string>
    */
-  protected $table = "customers";
+  protected $table = "payment_orders";
 
   /**
    * The attributes that are mass assignable.
@@ -23,13 +25,10 @@ class Customer extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    'name',
-    'document',
-    'email',
-    'phone',
-    'birth_date',
-    'address_id',
-    'indication_id',
+    'process_id',
+    'installments',
+    'contract_file',
+    'has_invoice',
   ];
 
   /**
@@ -38,22 +37,22 @@ class Customer extends Model
    * @var array<string, string>
    */
   protected $casts = [
-    'birth_date' => 'date',
+    'has_invoice' => 'boolean',
   ];
 
   /**
-   * Get the customer address.
+   * Get the payment order installments.
    */
-  public function address(): HasOne
+  public function installments(): HasMany
   {
-    return $this->hasOne(Address::class);
+    return $this->hasMany(Installment::class);
   }
 
   /**
-   * Get the customer indication.
+   * Get the order process.
    */
-  public function indication(): HasOne
+  public function process(): BelongsTo
   {
-    return $this->hasOne(Indication::class);
+    return $this->belongsTo(Process::class);
   }
 }

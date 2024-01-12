@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class Installment extends Model
 {
   use SoftDeletes;
 
@@ -15,7 +16,7 @@ class Customer extends Model
    *
    * @var array<int, string>
    */
-  protected $table = "customers";
+  protected $table = "installments";
 
   /**
    * The attributes that are mass assignable.
@@ -23,13 +24,10 @@ class Customer extends Model
    * @var array<int, string>
    */
   protected $fillable = [
-    'name',
-    'document',
-    'email',
-    'phone',
-    'birth_date',
-    'address_id',
-    'indication_id',
+    'order_id',
+    'number',
+    'is_paid',
+    'due_date',
   ];
 
   /**
@@ -38,22 +36,15 @@ class Customer extends Model
    * @var array<string, string>
    */
   protected $casts = [
-    'birth_date' => 'date',
+    'due_date' => 'date',
+    'is_paid' => 'boolean',
   ];
 
   /**
-   * Get the customer address.
+   * Get the installment order.
    */
-  public function address(): HasOne
+  public function order(): BelongsTo
   {
-    return $this->hasOne(Address::class);
-  }
-
-  /**
-   * Get the customer indication.
-   */
-  public function indication(): HasOne
-  {
-    return $this->hasOne(Indication::class);
+    return $this->belongsTo(PaymentOrder::class);
   }
 }
