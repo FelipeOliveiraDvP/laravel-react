@@ -17,7 +17,7 @@ return new class extends Migration
       $table->string('document');
       $table->string('email');
       $table->string('phone');
-      $table->date('birth_date');
+      $table->date('birth_date')->nullable();
       $table->foreignId('address_id');
       $table->foreignId('indication_id')->nullable();
       $table->timestamps();

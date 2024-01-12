@@ -11,14 +11,12 @@ return new class extends Migration
    */
   public function up(): void
   {
-    Schema::create('tasks', function (Blueprint $table) {
+    Schema::create('payment_orders', function (Blueprint $table) {
       $table->id();
-      $table->string('title');
-      $table->string('description');
-      $table->integer('index');
-      $table->enum('status', ['todo', 'doing', 'awaiting', 'approve', 'finished'])->default('todo');
-      $table->date('final_date');
-      $table->foreignId('user_id');
+      $table->foreignId('process_id');
+      $table->integer('installments', false, true)->default(1);
+      $table->string('contract_file')->nullable();
+      $table->boolean('has_invoice')->default(false);
       $table->timestamps();
       $table->softDeletes();
     });
@@ -29,6 +27,6 @@ return new class extends Migration
    */
   public function down(): void
   {
-    Schema::dropIfExists('tasks');
+    Schema::dropIfExists('payment_orders');
   }
 };

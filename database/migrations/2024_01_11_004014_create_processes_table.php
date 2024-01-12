@@ -14,10 +14,12 @@ return new class extends Migration
     Schema::create('processes', function (Blueprint $table) {
       $table->id();
       $table->string('process_number')->unique();
-      $table->enum('situation', ['pending', 'approve', 'cancelled'])->default('pending');
-      $table->enum('expertise', ['criminal', 'family']);
+      $table->integer('situation_type', false, true);
+      $table->integer('legal_type', false, true);
       $table->string('tribunal');
-      $table->double('amount');
+      $table->boolean('is_probono')->default(false);
+      $table->double('amount', 2, true)->default(0);
+      $table->date('final_date')->nullable();
       $table->foreignId('customer_id');
       $table->foreignId('user_id');
       $table->timestamps();
