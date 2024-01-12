@@ -6,12 +6,9 @@ import { Table } from "@/components/__commons";
 import {
   Process,
   ProcessResponseType,
-  processesExpertiseColor,
-  processesExpertises,
-  processesSituationColor,
-  processesSituations,
+  getLegalLabel,
+  getSituationLabel,
 } from "@/core/services/processes";
-import { Link } from "react-router-dom";
 
 interface Props {
   data?: ProcessResponseType;
@@ -39,23 +36,15 @@ export function ProcessesList({
       id: "customer.name",
       header: "Cliente",
     }),
-    columnHelper.accessor("situation", {
-      id: "situation",
+    columnHelper.accessor("situation_type", {
+      id: "situation_type",
       header: "Situação",
-      cell: ({ getValue }) => (
-        <Badge color={processesSituationColor[getValue()]}>
-          {processesSituations[getValue()]}
-        </Badge>
-      ),
+      cell: ({ getValue }) => getSituationLabel(getValue()),
     }),
-    columnHelper.accessor("expertise", {
-      id: "expertise",
+    columnHelper.accessor("legal_type", {
+      id: "legal_type",
       header: "Área de Atuação",
-      cell: ({ getValue }) => (
-        <Badge color={processesExpertiseColor[getValue()]}>
-          {processesExpertises[getValue()]}
-        </Badge>
-      ),
+      cell: ({ getValue }) => getLegalLabel(getValue()),
     }),
     columnHelper.accessor((row) => row, {
       id: "actions",

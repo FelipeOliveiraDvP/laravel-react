@@ -24,6 +24,9 @@ use App\Http\Controllers\UsersController;
 Route::prefix('auth')->group(function () {
   Route::post('login', [AuthController::class, 'login']);
   Route::post('refresh', [AuthController::class, 'refresh']);
+  Route::post('forgot', [AuthController::class, 'forgot']);
+  Route::post('reset', [AuthController::class, 'reset']);
+  Route::get('verify/{token}', [AuthController::class, 'verify']);
 });
 
 Route::middleware('auth:api')->group(function () {

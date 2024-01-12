@@ -3,7 +3,6 @@ import { Button, Group, Input, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { UserListQuery, UserRolesType, userRoles } from "@/core/services/users";
 import { IconSearch } from "@tabler/icons-react";
-import { getOptions } from "@/core/utils";
 
 interface Props {
   onChange: (values: UserListQuery) => void;
@@ -53,7 +52,7 @@ export function UsersFilters({ onChange }: Props) {
         <Select
           {...form.getInputProps("role")}
           placeholder="Tipo de usuário"
-          data={getOptions(userRoles)}
+          data={[]}
           clearable
           onChange={(value) =>
             handleChange({

@@ -24,6 +24,7 @@ class User extends Authenticatable implements JWTSubject
     'email',
     'role',
     'password',
+    'is_active',
   ];
 
   /**
@@ -42,8 +43,8 @@ class User extends Authenticatable implements JWTSubject
    * @var array<string, string>
    */
   protected $casts = [
-    'email_verified_at' => 'datetime',
     'password' => 'hashed',
+    'is_active' => 'boolean',
   ];
 
   /**
@@ -60,9 +61,10 @@ class User extends Authenticatable implements JWTSubject
   public function getJWTCustomClaims()
   {
     return [
-      'email' => $this->email,
-      'name' => $this->name,
-      'role' => $this->role
+      'email'     => $this->email,
+      'name'      => $this->name,
+      'role'      => $this->role,
+      'is_active' => $this->is_active,
     ];
   }
 }

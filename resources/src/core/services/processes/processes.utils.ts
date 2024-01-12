@@ -1,4 +1,5 @@
 import { arrayToOptions } from "@/core/utils";
+import { ProcessLegalEnum, ProcessSituationEnum } from ".";
 
 const situationsLabels = [
   "Fase Inicial",
@@ -12,7 +13,7 @@ const situationsLabels = [
   "Finalizado",
 ];
 
-const expertisesLabels = [
+const legalLabels = [
   "Consumidor",
   "Cível",
   "Empresarial",
@@ -34,4 +35,9 @@ const expertisesLabels = [
 
 export const situationOptions = arrayToOptions(situationsLabels);
 
-export const expertisesOptions = arrayToOptions(situationsLabels);
+export const legalOptions = arrayToOptions(legalLabels);
+
+export const getSituationLabel = (item: ProcessSituationEnum) =>
+  situationsLabels[item];
+
+export const getLegalLabel = (item: ProcessLegalEnum) => legalLabels[item];

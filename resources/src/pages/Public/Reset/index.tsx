@@ -1,11 +1,9 @@
 import React from "react";
 import {
-  Box,
   Button,
   Center,
   Image,
   Loader,
-  LoadingOverlay,
   Paper,
   PasswordInput,
   Stack,
@@ -45,6 +43,7 @@ export default function ResetPage() {
   });
 
   async function handleSubmit(values: ResetRequest) {
+    console.log(values);
     await mutation.mutateAsync({ ...values, token });
   }
 

@@ -12,13 +12,7 @@ import {
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
-import {
-  Process,
-  ProcessRequest,
-  processesExpertises,
-  processesSituations,
-} from "@/core/services/processes";
-import { getOptions } from "@/core/utils";
+import { Process, ProcessRequest } from "@/core/services/processes";
 
 type Props = ModalProps & {
   process?: Process;
@@ -39,10 +33,10 @@ export function ProcessModal({ process, ...props }: Props) {
     initialValues: {
       customer_id: null,
       process_number: "",
-      amount: 0,
-      expertise: null,
-      situation: null,
-      tribunal: "",
+
+      // expertise: null,
+      // situation: null,
+      // tribunal: "",
     },
   });
 
@@ -72,7 +66,7 @@ export function ProcessModal({ process, ...props }: Props) {
       centered
       onClose={handleClose}
     >
-      <form onSubmit={form.onSubmit((values) => handleSave(values))}>
+      {/* <form onSubmit={form.onSubmit((values) => handleSave(values))}>
         <Stack gap="md">
           <Select
             {...form.getInputProps("customer_id")}
@@ -124,7 +118,7 @@ export function ProcessModal({ process, ...props }: Props) {
             </Button>
           </Group>
         </Stack>
-      </form>
+      </form> */}
     </Modal>
   );
 }

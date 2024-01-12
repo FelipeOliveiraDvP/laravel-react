@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import authService from "./auth.service";
 import { useAuth } from "@/core/providers";
+import { LoginResponse } from ".";
+import { AxiosError } from "axios";
 
 export function useLogin() {
   const { onLogin } = useAuth();
@@ -58,11 +60,12 @@ export function useForgot() {
 export function useVerify(token?: string) {
   const navigate = useNavigate();
 
-  return useQuery(
+  return useQuery<LoginResponse, AxiosError>(
     ["verifyToken", token],
     () => authService.verifyToken(token),
     {
-      onError() {
+      onError(error) {
+        console.log(error.response?.data);
         // Show Notification
         navigate("/");
       },

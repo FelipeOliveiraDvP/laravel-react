@@ -3,13 +3,12 @@ import { Button, Group, Input, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
 import {
-  ProcessExpertiseType,
+  ProcessLegalEnum,
   ProcessListQuery,
-  ProcessSituationType,
-  processesExpertises,
-  processesSituations,
+  ProcessSituationEnum,
+  legalOptions,
+  situationOptions,
 } from "@/core/services/processes";
-import { getOptions } from "@/core/utils";
 
 interface Props {
   onChange: (values: ProcessListQuery) => void;
@@ -17,8 +16,8 @@ interface Props {
 
 const initialValues: ProcessListQuery = {
   process_number: "",
-  expertise: null,
-  situation: null,
+  legal_type: null,
+  situation_type: null,
   page: 1,
 };
 
@@ -52,24 +51,24 @@ export function ProcessesFilters({ onChange }: Props) {
           }
         />
         <Select
-          {...form.getInputProps("situation")}
+          {...form.getInputProps("situation_type")}
           placeholder="Situação do processo"
-          data={getOptions(processesSituations)}
+          data={situationOptions}
           onChange={(value) =>
             handleChange({
               ...form.values,
-              situation: value as ProcessSituationType,
+              situation_type: value as unknown as ProcessSituationEnum,
             })
           }
         />
         <Select
-          {...form.getInputProps("expertise")}
+          {...form.getInputProps("legal_type")}
           placeholder="Área de atuação"
-          data={getOptions(processesExpertises)}
+          data={legalOptions}
           onChange={(value) =>
             handleChange({
               ...form.values,
-              expertise: value as ProcessExpertiseType,
+              legal_type: value as unknown as ProcessLegalEnum,
             })
           }
         />
