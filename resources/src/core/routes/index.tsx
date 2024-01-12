@@ -4,6 +4,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { PrivateLayout, PublicLayout } from "@/layouts";
 
 const LoginPage = lazy(() => import("@/pages/Public/Login"));
+const ForgotPage = lazy(() => import("@/pages/Public/Forgot"));
+const ResetPage = lazy(() => import("@/pages/Public/Reset"));
 
 const DashboardPage = lazy(() => import("@/pages/Private/Dashboard"));
 const CustomersPage = lazy(() => import("@/pages/Private/Customers"));
@@ -21,6 +23,8 @@ export function Router() {
       <Routes>
         <Route path="/" element={<PublicLayout />}>
           <Route index element={<LoginPage />} />
+          <Route path="forgot" element={<ForgotPage />} />
+          <Route path="reset/:token" element={<ResetPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/app" element={<PrivateLayout />}>

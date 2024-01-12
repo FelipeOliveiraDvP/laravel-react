@@ -4,38 +4,35 @@ import {
   Center,
   Image,
   Paper,
-  PasswordInput,
   Stack,
   Text,
   TextInput,
 } from "@mantine/core";
 import { yupResolver } from "mantine-form-yup-resolver";
 import { useForm } from "@mantine/form";
-import { IconLogin2 } from "@tabler/icons-react";
+import { IconMail } from "@tabler/icons-react";
 import * as yup from "yup";
-import { LoginRequest, useLogin } from "@/core/services/auth";
+import { ForgotRequest, useForgot } from "@/core/services/auth";
 
 import logoAlt from "@/assets/logo-alt.png";
 import { AnchorLink } from "@/components/__commons";
 
 const schema = yup.object().shape({
   email: yup.string().required("Campo Obrigatório").email("E-mail inválido"),
-  password: yup.string().min(2, "A senha precisa ter no mínimo 8 caracteres"),
 });
 
-export default function LoginPage() {
-  const loginMutation = useLogin();
+export default function ForgotPage() {
+  const mutation = useForgot();
 
   const form = useForm({
     initialValues: {
       email: "",
-      password: "",
     },
     validate: yupResolver(schema),
   });
 
-  async function handleSubmit(values: LoginRequest) {
-    await loginMutation.mutateAsync(values);
+  async function handleSubmit(values: ForgotRequest) {
+    await mutation.mutateAsync(values);
   }
 
   return (
@@ -46,7 +43,7 @@ export default function LoginPage() {
             <Image src={logoAlt} w={200} />
           </Center>
           <Text c="dimmed" size="sm" ta="center" mt={5}>
-            Informe seu usuário e senha para acessar a plataforma.
+            Informe seu e-mail para receber um link para a recuperação da senha.
           </Text>
           <form onSubmit={form.onSubmit(handleSubmit)}>
             <TextInput
@@ -55,24 +52,18 @@ export default function LoginPage() {
               withAsterisk
               {...form.getInputProps("email")}
             />
-            <PasswordInput
-              label="Senha"
-              placeholder="********"
-              withAsterisk
-              mt="md"
-              {...form.getInputProps("password")}
-            />
+
             <Button
               type="submit"
               fullWidth
               mt="xl"
-              rightSection={<IconLogin2 />}
-              loading={loginMutation.isLoading}
+              rightSection={<IconMail />}
+              loading={mutation.isLoading}
             >
-              Entrar
+              Recuperar Senha
             </Button>
           </form>
-          <AnchorLink href="/forgot">Esqueci minha senha</AnchorLink>
+          <AnchorLink href="/">Voltar para o login</AnchorLink>
         </Stack>
       </Paper>
     </Center>

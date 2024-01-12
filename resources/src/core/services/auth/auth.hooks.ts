@@ -1,4 +1,4 @@
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 import authService from "./auth.service";
@@ -10,9 +10,7 @@ export function useLogin() {
 
   return useMutation(authService.login, {
     onSuccess(data) {
-      onLogin(data, () => {
-        navigate("/app");
-      });
+      onLogin(data, () => navigate("/app"));
     },
     onError(error) {
       console.log(error);
@@ -31,6 +29,54 @@ export function useLogout() {
   return useMutation(authService.logout, {
     onSuccess() {
       onLogout(() => navigate("/"));
+    },
+    onError(error) {
+      console.log(error);
+      // showNotification({
+      //   variant: 'error',
+      //   errors: error as AxiosError,
+      // });
+    },
+  });
+}
+
+export function useForgot() {
+  return useMutation(authService.forgot, {
+    onSuccess() {
+      console.log("Notification");
+    },
+    onError(error) {
+      console.log(error);
+      // showNotification({
+      //   variant: 'error',
+      //   errors: error as AxiosError,
+      // });
+    },
+  });
+}
+
+export function useVerify(token?: string) {
+  const navigate = useNavigate();
+
+  return useQuery(
+    ["verifyToken", token],
+    () => authService.verifyToken(token),
+    {
+      onError() {
+        // Show Notification
+        navigate("/");
+      },
+    }
+  );
+}
+
+export function useReset() {
+  const { onLogin } = useAuth();
+  const navigate = useNavigate();
+
+  return useMutation(authService.reset, {
+    onSuccess(data) {
+      onLogin(data, () => navigate("/app"));
     },
     onError(error) {
       console.log(error);
