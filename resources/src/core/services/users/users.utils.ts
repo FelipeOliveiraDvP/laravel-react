@@ -1,6 +1,11 @@
+import { objectToOptions } from "@/core/utils";
 import { UserRolesType } from ".";
 
-export const userRoles: Record<UserRolesType, string> = {
+const roles = {
   admin: "Administrador",
   user: "Usuário",
 };
+
+export const roleOptions = objectToOptions(roles);
+
+export const getUserRole = (role: UserRolesType) => roles[role];

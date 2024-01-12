@@ -1,8 +1,7 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomersController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProcessesController;
@@ -45,21 +44,21 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/', [CustomersController::class, 'index']);
     Route::post('/', [CustomersController::class, 'store']);
     Route::put('/{id}', [CustomersController::class, 'update']);
-    Route::delete('/{id}', [CustomersController::class, 'delete']);
+    Route::delete('/{id}', [CustomersController::class, 'destroy']);
   });
 
   Route::prefix('schedules')->group(function () {
     Route::get('/', [SchedulesController::class, 'index']);
     Route::post('/', [SchedulesController::class, 'store']);
     Route::put('/{id}', [SchedulesController::class, 'update']);
-    Route::delete('/{id}', [SchedulesController::class, 'delete']);
+    Route::delete('/{id}', [SchedulesController::class, 'destroy']);
   });
 
   Route::prefix('tasks')->group(function () {
     Route::get('/', [TasksController::class, 'index']);
     Route::post('/', [TasksController::class, 'store']);
     Route::put('/{id}', [TasksController::class, 'update']);
-    Route::delete('/{id}', [TasksController::class, 'delete']);
+    Route::delete('/{id}', [TasksController::class, 'destroy']);
     Route::patch('/{id}/reorder', [TasksController::class, 'reorder']);
   });
 
@@ -67,13 +66,13 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/', [ProcessesController::class, 'index']);
     Route::post('/', [ProcessesController::class, 'store']);
     Route::put('/{id}', [ProcessesController::class, 'update']);
-    Route::delete('/{id}', [ProcessesController::class, 'delete']);
+    Route::delete('/{id}', [ProcessesController::class, 'destroy']);
   });
 
   Route::prefix('users')->group(function () {
     Route::get('/', [UsersController::class, 'index']);
     Route::post('/', [UsersController::class, 'store']);
     Route::put('/{id}', [UsersController::class, 'update']);
-    Route::delete('/{id}', [UsersController::class, 'delete']);
+    Route::delete('/{id}', [UsersController::class, 'destroy']);
   });
 });

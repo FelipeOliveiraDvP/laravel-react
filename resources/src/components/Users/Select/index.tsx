@@ -1,13 +1,27 @@
-import React from "react";
-import { Select } from "@mantine/core";
+import React, { useState } from "react";
+import { Select, SelectProps } from "@mantine/core";
+import { useDebouncedValue } from "@mantine/hooks";
+import { useUsers } from "@/core/services/users";
 
-export function UserSelect() {
+export function UserSelect({ ...props }: SelectProps) {
+  const [params, setParams] = useState<{ name: string }>();
+  const [debounced] = useDebouncedValue(params, 200);
+  const { data } = useUsers(debounced);
+
   return (
     <Select
-      label="Responsável"
+      {...props}
+      label="Usuário"
       placeholder="Selecione um usuário"
-      data={[]}
-      withAsterisk
+      data={
+        data
+          ? data.items.map((item) => ({
+              value: String(item.id),
+              label: item.name,
+            }))
+          : []
+      }
+      onSearchChange={(value) => setParams({ name: value })}
     />
   );
 }

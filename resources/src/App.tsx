@@ -1,6 +1,7 @@
 import React from "react";
 import { QueryClientProvider } from "react-query";
 import { MantineProvider } from "@mantine/core";
+import { ModalsProvider } from "@mantine/modals";
 
 import { AuthProvider } from "./core/providers";
 import { queryClient } from "./core/config/react-query";
@@ -17,7 +18,9 @@ export function App() {
           <DatesProvider
             settings={{ locale: "pt-br", timezone: "America/Sao_Paulo" }}
           >
-            <Router />
+            <ModalsProvider>
+              <Router />
+            </ModalsProvider>
           </DatesProvider>
         </MantineProvider>
       </AuthProvider>

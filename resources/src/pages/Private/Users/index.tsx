@@ -11,42 +11,16 @@ import {
 } from "@mantine/core";
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { UsersFilters, UsersList } from "@/components/Users";
-import { User, UserListQuery } from "@/core/services/users";
+import { User, UserListQuery, useUsers } from "@/core/services/users";
 import { AnchorLink } from "@/components/__commons";
 import { UserModal } from "@/components/Users/Modal";
-
-const mockData: User[] = [
-  {
-    id: 1,
-    name: "Usuário 1",
-    email: "usuario1@email.com",
-    role: "admin",
-    created_at: "2024-01-01",
-    updated_at: "2024-01-01",
-  },
-  {
-    id: 2,
-    name: "Usuário 2",
-    role: "user",
-    email: "usuario1@email.com",
-    created_at: "2024-01-01",
-    updated_at: "2024-01-01",
-  },
-  {
-    id: 3,
-    name: "Usuário 3",
-    email: "usuario1@email.com",
-    role: "user",
-    created_at: "2024-01-01",
-    updated_at: "2024-01-01",
-  },
-];
 
 export default function UsersPage() {
   const [params, setParams] = useState<UserListQuery>();
   const [debounced] = useDebouncedValue(params, 200);
   const [selected, setSelected] = useState<User>();
   const [opened, { open, close }] = useDisclosure(false);
+  const { data, isLoading } = useUsers(debounced);
 
   return (
     <Stack>
@@ -65,10 +39,10 @@ export default function UsersPage() {
           </Flex>
 
           <UsersList
-            data={{ items: mockData, pagination: { current: 1, total: 3 } }}
-            loading={false}
+            data={data}
+            loading={isLoading}
             onPaginate={(page) => setParams((params) => ({ ...params, page }))}
-            onSelectUser={(user) => {
+            onSelect={(user) => {
               setSelected(user);
               open();
             }}

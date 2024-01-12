@@ -6,11 +6,17 @@ import {
   Modal,
   ModalProps,
   Stack,
+  Switch,
   TextInput,
 } from "@mantine/core";
 import { useForm, yupResolver } from "@mantine/form";
 import * as Yup from "yup";
-import { User, UserRequest } from "@/core/services/users";
+import {
+  User,
+  UserRequest,
+  useCreateUser,
+  useUpdateUser,
+} from "@/core/services/users";
 
 type Props = ModalProps & {
   user?: User;
@@ -24,19 +30,23 @@ const schema = Yup.object().shape({
 });
 
 export function UserModal({ user, ...props }: Props) {
+  const createMutation = useCreateUser();
+  const updateMutation = useUpdateUser();
+
   const form = useForm<UserRequest>({
     validate: yupResolver(schema),
     initialValues: {
       name: "",
       email: "",
+      is_active: true,
     },
   });
 
   async function handleSave(values: UserRequest) {
     if (user) {
-      console.log("Editar: ", values);
+      await updateMutation.mutateAsync({ ...values, id: user.id });
     } else {
-      console.log("Cadastrar: ", values);
+      await createMutation.mutateAsync(values);
     }
     handleClose();
   }
@@ -51,6 +61,7 @@ export function UserModal({ user, ...props }: Props) {
       form.setValues({
         name: user?.name || "",
         email: user?.email || "",
+        is_active: user.is_active,
       });
     }
   }, [user]);
@@ -76,12 +87,19 @@ export function UserModal({ user, ...props }: Props) {
             placeholder="Adicione o e-mail"
             withAsterisk
           />
+          <Switch
+            {...form.getInputProps("is_active", { type: "checkbox" })}
+            label="Ativar usuário"
+          />
           <Divider />
           <Group gap="sm" justify="flex-end">
             <Button variant="outline" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button type="submit" loading={false}>
+            <Button
+              type="submit"
+              loading={createMutation.isLoading || updateMutation.isLoading}
+            >
               Salvar Usuário
             </Button>
           </Group>

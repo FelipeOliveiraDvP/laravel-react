@@ -4,6 +4,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  is_active: boolean;
   role: UserRolesType;
   created_at: string;
   updated_at: string;
@@ -24,5 +25,5 @@ export interface UserRequest {
   id?: number;
   name: string;
   email: string;
-  role: UserRolesType | null;
+  is_active: boolean;
 }
