@@ -3,6 +3,7 @@ export interface Task {
   index: number;
   title: string;
   description: string;
+  final_date: string;
   status: TaskStatusType;
   responsible: {
     id: number;
@@ -11,14 +12,21 @@ export interface Task {
   };
   created_at: string;
   updated_at: string;
+  deleted_at?: string | null;
 }
 
-export type TaskStatusType = "todo" | "doing" | "approve" | "finished";
+export type TaskStatusType =
+  | "todo"
+  | "doing"
+  | "awaiting"
+  | "approve"
+  | "finished";
 
 export interface TaskRequest {
   id?: number;
   title: string;
   description: string;
+  final_date: string;
   status: TaskStatusType;
   responsible_id: number | null;
 }

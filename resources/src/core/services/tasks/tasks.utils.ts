@@ -1,8 +1,10 @@
 import { Task, TaskState, TaskStatusType } from "@/core/services/tasks";
+import { objectToOptions } from "@/core/utils";
 
 export const initialTaskState: TaskState = {
   todo: [],
   doing: [],
+  awaiting: [],
   approve: [],
   finished: [],
 };
@@ -10,16 +12,12 @@ export const initialTaskState: TaskState = {
 export const taskStatus: Record<TaskStatusType, string> = {
   todo: "A fazer",
   doing: "Em andamento",
+  awaiting: "Aguardando",
   approve: "Aprovado",
   finished: "Finalizado",
 };
 
-export const taskStatusOptions = Object.entries(taskStatus).map(
-  ([value, label]) => ({
-    value,
-    label,
-  })
-);
+export const taskStatusOptions = objectToOptions(taskStatus);
 
 export const mockData: Task[] = [
   {

@@ -1,30 +1,37 @@
-import { MantineColor } from "@mantine/core";
-import { ProcessExpertiseType, ProcessSituationType } from ".";
+import { arrayToOptions } from "@/core/utils";
 
-export const processesSituations: Record<ProcessSituationType, string> = {
-  pending: "Pendente",
-  approved: "Aprovado",
-  cancelled: "Cancelado",
-};
+const situationsLabels = [
+  "Fase Inicial",
+  "Fase de Execução",
+  "Contestação",
+  "Réplica",
+  "Aguardando Audiência",
+  "Aguardando Sentença",
+  "Recurso",
+  "Aguardando Citação",
+  "Finalizado",
+];
 
-export const processesExpertises: Record<ProcessExpertiseType, string> = {
-  criminal: "Criminal",
-  family: "Família",
-};
+const expertisesLabels = [
+  "Consumidor",
+  "Cível",
+  "Empresarial",
+  "Criminal",
+  "Eleitoral",
+  "Administrativo",
+  "Médico",
+  "Tributário",
+  "Previdenciário",
+  "Trabalhista",
+  "Sindicato",
+  "Negócios Internacionais",
+  "Direito Digital",
+  "Direito Agrário",
+  "Compliance",
+  "Direito do Entretenimento",
+  "Patente e Marca",
+];
 
-export const processesSituationColor: Record<
-  ProcessSituationType,
-  MantineColor
-> = {
-  pending: "gray",
-  approved: "lime",
-  cancelled: "red",
-};
+export const situationOptions = arrayToOptions(situationsLabels);
 
-export const processesExpertiseColor: Record<
-  ProcessExpertiseType,
-  MantineColor
-> = {
-  criminal: "grape",
-  family: "cyan",
-};
+export const expertisesOptions = arrayToOptions(situationsLabels);

@@ -13,7 +13,7 @@ export interface Customer {
     number: string;
     city: string;
     state: string;
-    complement?: string;
+    complement?: string | null;
   };
   indication?: {
     name: string;
