@@ -1,8 +1,8 @@
 import React from "react";
 import { UnstyledButton, Group, Avatar, Text, rem } from "@mantine/core";
-import classes from "./styles.module.css";
 import { useAuth } from "@/core/providers";
 import { getFirstLetter } from "@/core/utils";
+import classes from "./styles.module.css";
 
 export function UserInfo() {
   const { user } = useAuth();

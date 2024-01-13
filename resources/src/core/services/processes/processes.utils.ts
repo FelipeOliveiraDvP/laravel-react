@@ -1,4 +1,4 @@
-import { arrayToOptions } from "@/core/utils";
+import { getOptionsFromArray } from "@/core/utils";
 import { ProcessLegalEnum, ProcessSituationEnum } from ".";
 
 const situationsLabels = [
@@ -33,9 +33,9 @@ const legalLabels = [
   "Patente e Marca",
 ];
 
-export const situationOptions = arrayToOptions(situationsLabels);
+export const processSituationOptions = getOptionsFromArray(situationsLabels);
 
-export const legalOptions = arrayToOptions(legalLabels);
+export const processLegalOptions = getOptionsFromArray(legalLabels);
 
 export const getSituationLabel = (item: ProcessSituationEnum) =>
   situationsLabels[item];

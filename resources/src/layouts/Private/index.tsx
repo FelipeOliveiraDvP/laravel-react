@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { AppShell, Button, Flex, Group, rem } from "@mantine/core";
+import { AppShell, Button, Flex } from "@mantine/core";
 
 import { PageLoader } from "@/components/__commons";
 import { Menu } from "./Menu";

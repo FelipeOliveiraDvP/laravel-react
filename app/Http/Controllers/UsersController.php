@@ -7,6 +7,7 @@ use App\Models\ResetTokens;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -17,7 +18,7 @@ class UsersController extends Controller
   {
     $query = User::query();
 
-    $query->where('role', '<>', 'admin');
+    $query->where('id', '<>', Auth::guard('api')->id());
 
     if ($request->has('name')) {
       $query->where('name', 'like', "%{$request->name}%");
@@ -82,7 +83,7 @@ class UsersController extends Controller
 
     $validator = Validator::make($request->all(), [
       'name' => 'string',
-      'email' => 'email',
+      'email' => 'email|unique:users,email',
       'is_active' => 'boolean',
     ]);
 

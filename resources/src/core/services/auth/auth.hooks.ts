@@ -5,6 +5,7 @@ import authService from "./auth.service";
 import { useAuth } from "@/core/providers";
 import { LoginResponse } from ".";
 import { AxiosError } from "axios";
+import { getErrorMessage, showError } from "@/core/utils";
 
 export function useLogin() {
   const { onLogin } = useAuth();
@@ -15,11 +16,7 @@ export function useLogin() {
       onLogin(data, () => navigate("/app"));
     },
     onError(error) {
-      console.log(error);
-      // showNotification({
-      //   variant: 'error',
-      //   errors: error as AxiosError,
-      // });
+      showError(getErrorMessage(error as AxiosError));
     },
   });
 }
@@ -33,11 +30,7 @@ export function useLogout() {
       onLogout(() => navigate("/"));
     },
     onError(error) {
-      console.log(error);
-      // showNotification({
-      //   variant: 'error',
-      //   errors: error as AxiosError,
-      // });
+      showError(getErrorMessage(error as AxiosError));
     },
   });
 }
@@ -48,11 +41,7 @@ export function useForgot() {
       console.log("Notification");
     },
     onError(error) {
-      console.log(error);
-      // showNotification({
-      //   variant: 'error',
-      //   errors: error as AxiosError,
-      // });
+      showError(getErrorMessage(error as AxiosError));
     },
   });
 }
@@ -65,8 +54,7 @@ export function useVerify(token?: string) {
     () => authService.verifyToken(token),
     {
       onError(error) {
-        console.log(error.response?.data);
-        // Show Notification
+        showError(getErrorMessage(error as AxiosError));
         navigate("/");
       },
     }
@@ -82,11 +70,7 @@ export function useReset() {
       onLogin(data, () => navigate("/app"));
     },
     onError(error) {
-      console.log(error);
-      // showNotification({
-      //   variant: 'error',
-      //   errors: error as AxiosError,
-      // });
+      showError(getErrorMessage(error as AxiosError));
     },
   });
 }

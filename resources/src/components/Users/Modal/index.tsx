@@ -17,6 +17,8 @@ import {
   useCreateUser,
   useUpdateUser,
 } from "@/core/services/users";
+import { getFormErrors } from "@/core/utils";
+import { AxiosError } from "axios";
 
 type Props = ModalProps & {
   user?: User;
@@ -43,12 +45,18 @@ export function UserModal({ user, ...props }: Props) {
   });
 
   async function handleSave(values: UserRequest) {
-    if (user) {
-      await updateMutation.mutateAsync({ ...values, id: user.id });
-    } else {
-      await createMutation.mutateAsync(values);
+    // form.setErrors({ email: "teste" });
+    try {
+      if (user) {
+        await updateMutation.mutateAsync({ ...values, id: user.id });
+      } else {
+        await createMutation.mutateAsync(values);
+      }
+
+      handleClose();
+    } catch (error) {
+      form.setErrors({ ...getFormErrors(error as AxiosError) });
     }
-    handleClose();
   }
 
   function handleClose() {

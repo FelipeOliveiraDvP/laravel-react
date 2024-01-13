@@ -1,8 +1,12 @@
 import React from "react";
-import { Button, Group, Input } from "@mantine/core";
+import { Button, Group, Input, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconSearch } from "@tabler/icons-react";
-import { UserListQuery } from "@/core/services/users";
+import {
+  UserListQuery,
+  UserRolesType,
+  userRolesOptions,
+} from "@/core/services/users";
 
 interface Props {
   onChange: (values: UserListQuery) => void;
@@ -49,10 +53,10 @@ export function UsersFilters({ onChange }: Props) {
             handleChange({ ...form.values, email: e.target.value })
           }
         />
-        {/* <Select
+        <Select
           {...form.getInputProps("role")}
           placeholder="Tipo de usuário"
-          data={roleOptions}
+          data={userRolesOptions}
           clearable
           onChange={(value) =>
             handleChange({
@@ -60,7 +64,7 @@ export function UsersFilters({ onChange }: Props) {
               role: value as UserRolesType,
             })
           }
-        /> */}
+        />
         <Button variant="outline" type="reset" onClick={handleReset}>
           Limpar filtros
         </Button>

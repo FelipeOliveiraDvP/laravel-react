@@ -6,8 +6,8 @@ import {
   ProcessLegalEnum,
   ProcessListQuery,
   ProcessSituationEnum,
-  legalOptions,
-  situationOptions,
+  processLegalOptions,
+  processSituationOptions,
 } from "@/core/services/processes";
 
 interface Props {
@@ -53,7 +53,7 @@ export function ProcessesFilters({ onChange }: Props) {
         <Select
           {...form.getInputProps("situation_type")}
           placeholder="Situação do processo"
-          data={situationOptions}
+          data={processSituationOptions}
           onChange={(value) =>
             handleChange({
               ...form.values,
@@ -64,7 +64,7 @@ export function ProcessesFilters({ onChange }: Props) {
         <Select
           {...form.getInputProps("legal_type")}
           placeholder="Área de atuação"
-          data={legalOptions}
+          data={processLegalOptions}
           onChange={(value) =>
             handleChange({
               ...form.values,

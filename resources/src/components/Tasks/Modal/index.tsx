@@ -18,6 +18,7 @@ import {
   TaskStatusType,
   taskStatusOptions,
 } from "@/core/services/tasks";
+import { UserSelect } from "@/components/Users";
 
 type Props = ModalProps & {
   task?: Task;
@@ -31,24 +32,6 @@ const schema = Yup.object().shape({
   responsible_id: Yup.string().required("Campo Obrigatório"),
 });
 
-const responsibles = [
-  {
-    id: 1,
-    name: "Ana Carla",
-    email: "ana.carla@email.com",
-  },
-  {
-    id: 2,
-    name: "Pedro Augusto",
-    email: "pedro.augusto@email.com",
-  },
-  {
-    id: 3,
-    name: "José da Silva",
-    email: "jose.silva@email.com",
-  },
-];
-
 export function TaskModal({ task, status, ...props }: Props) {
   const form = useForm<TaskRequest>({
     validate: yupResolver(schema),
@@ -57,6 +40,7 @@ export function TaskModal({ task, status, ...props }: Props) {
       description: "",
       status: "todo",
       responsible_id: null,
+      final_date: "",
     },
   });
 
@@ -110,18 +94,15 @@ export function TaskModal({ task, status, ...props }: Props) {
             withAsterisk
             data={taskStatusOptions}
           />
-          <Select
+          <UserSelect
             {...form.getInputProps("responsible_id")}
             label="Responsável"
             placeholder="Selecione o responsável da tarefa"
             withAsterisk
-            data={responsibles.map((item) => ({
-              value: String(item.id),
-              label: item.name,
-            }))}
           />
 
           <Divider />
+
           <Group gap="sm" justify="flex-end">
             <Button variant="outline" onClick={handleClose}>
               Cancelar
