@@ -30,7 +30,7 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper withBorder p="md">
             <Group justify="space-between" mb="md">
-              <Text fw={700}>Agenda</Text>
+              <Text fw={700}>Agenda do mês</Text>
               <AnchorLink href="/app/scheduler">Ver agenda</AnchorLink>
             </Group>
             <DashboardCalendar events={events || []} />
