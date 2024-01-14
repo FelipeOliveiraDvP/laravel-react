@@ -15,6 +15,7 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm, yupResolver } from "@mantine/form";
+import { useMask } from "@react-input/mask";
 import * as Yup from "yup";
 import dayjs from "dayjs";
 import {
@@ -26,6 +27,7 @@ import {
 import { getBrazilStateOptions } from "@/core/utils/getBrazilStateOptions";
 import { getFormErrors } from "@/core/utils";
 import { AxiosError } from "axios";
+import { MaskedInput } from "@/components/__commons";
 
 type Props = ModalProps & {
   customer?: Customer;
@@ -50,11 +52,19 @@ const schema = Yup.object().shape({
       .length(2, "Informe uma UF válida")
       .required("Campo Obrigatório"),
   }),
+  indication: Yup.object().shape({
+    email: Yup.string().email("Informe um e-mail válido"),
+  }),
 });
 
 export function CustomerModal({ customer, ...props }: Props) {
   const createMutation = useCreateCustomer();
   const updateMutation = useUpdateCustomer();
+  const cpfMaskRef = useMask({
+    mask: "___.___.___-__",
+    replacement: { _: /\d/ },
+  });
+
   const form = useForm<CustomerRequest>({
     validate: yupResolver(schema),
     initialValues: {
@@ -142,19 +152,21 @@ export function CustomerModal({ customer, ...props }: Props) {
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-              <TextInput
+              <MaskedInput
                 {...form.getInputProps("document")}
                 label="CPF"
                 placeholder="EX: 000.000.000-00"
                 withAsterisk
+                mask="cpf"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-              <TextInput
+              <MaskedInput
                 {...form.getInputProps("phone")}
                 label="Telefone"
                 placeholder="EX: (00) 0000 0000"
                 withAsterisk
+                mask="phone"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
@@ -183,11 +195,12 @@ export function CustomerModal({ customer, ...props }: Props) {
               </Text>
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 4 }}>
-              <TextInput
+              <MaskedInput
                 {...form.getInputProps("address.zip")}
                 label="CEP"
                 placeholder="EX: 00000-000"
                 withAsterisk
+                mask="cep"
               />
             </Grid.Col>
             <Grid.Col span={{ base: 12, md: 8 }}>
@@ -240,7 +253,6 @@ export function CustomerModal({ customer, ...props }: Props) {
                 </Text>
                 <Switch
                   {...form.getInputProps("is_indication", { type: "checkbox" })}
-                  label="sim"
                 />
               </Flex>
             </Grid.Col>
@@ -250,16 +262,17 @@ export function CustomerModal({ customer, ...props }: Props) {
                   <TextInput
                     {...form.getInputProps("indication.name")}
                     label="Nome de quem indicou"
-                    placeholder="exemplo@email.com"
+                    placeholder="Informe o nome"
                     withAsterisk
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-                  <TextInput
+                  <MaskedInput
                     {...form.getInputProps("indication.phone")}
                     label="Telefone"
                     placeholder="EX: (00) 0000 0000"
                     withAsterisk
+                    mask="phone"
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>

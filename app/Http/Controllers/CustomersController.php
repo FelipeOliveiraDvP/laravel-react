@@ -111,7 +111,7 @@ class CustomersController extends Controller
       return response()->json($validator->errors(), 400);
     }
 
-    if ($customer->indication && $request->is_indication == false) {
+    if ($request->is_indication == false) {
       $customer->indication_id = null;
       $customer->save();
     } else {
@@ -137,12 +137,14 @@ class CustomersController extends Controller
     $customer->address->complement  = $request->input('address.complement');
     $customer->address->save();
 
+    $is_new_indication = $request->is_indication == true && $customer->indication_id == null;
+
     $customer->name           = $request->name;
     $customer->document       = $request->document;
     $customer->email          = $request->email;
     $customer->phone          = $request->phone;
     $customer->birth_date     = $request->birth_date;
-    $customer->indication_id  = $request->is_indication ? $indication->id : $customer->indication_id;
+    $customer->indication_id  = $is_new_indication ? $indication->id : $customer->indication_id;
     $customer->save();
 
     return response()->json(['message' => 'Cliente atualizado com sucesso'], 200);

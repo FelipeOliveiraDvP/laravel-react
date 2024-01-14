@@ -42,7 +42,7 @@ export function Menu() {
   return (
     <nav className={classes.navbar}>
       <div className={classes.header}>
-        <Group justify="space-between">
+        <Group justify="center">
           <Logo />
         </Group>
       </div>
