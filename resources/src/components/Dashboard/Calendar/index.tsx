@@ -1,33 +1,27 @@
-import { Calendar } from "@mantine/dates";
 import React from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import { Event } from "@/core/services/schedule";
 
-export function DashboardCalendar() {
+interface Props {
+  events: Event[];
+}
+
+export function DashboardCalendar({ events }: Props) {
   return (
-    <Calendar
-      styles={(theme) => ({
-        calendarHeader: {
-          maxWidth: "100%",
-        },
-        weekdaysRow: {
-          background: theme.colors.gray[2],
-        },
-        weekday: {
-          border: `1px solid ${theme.colors.gray[4]}`,
-        },
-        month: {
-          width: "100%",
-        },
-        monthCell: {
-          textAlign: "center",
-          border: `1px solid ${theme.colors.gray[4]}`,
-          // padding: theme.spacing.xs,
-        },
-        day: {
-          width: "100%",
-          height: "100%",
-          padding: theme.spacing.md,
-        },
-      })}
+    <FullCalendar
+      locale="pt-br"
+      initialView="dayGridMonth"
+      plugins={[dayGridPlugin]}
+      headerToolbar={false}
+      events={events.map((event) => ({
+        title: event.title,
+        start: event.start_date,
+        end: event.final_date,
+        color: event.color,
+        backgroundColor: event.color,
+        extendedProps: { ...event },
+      }))}
     />
   );
 }

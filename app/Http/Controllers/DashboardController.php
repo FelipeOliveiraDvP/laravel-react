@@ -2,16 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
+use App\Models\Task;
+use Illuminate\Support\Carbon;
+
 class DashboardController extends Controller
 {
   public function events()
   {
-    return response()->json(['message' => 'Ok'], 200);
+    $query = Event::query();
+    $start_date = Carbon::now()->firstOfMonth();
+    $final_date = Carbon::now()->lastOfMonth();
+
+    $query->whereBetween('final_date', [$start_date, $final_date]);
+
+    return response()->json($query->with('responsible')->get(), 200);
   }
 
   public function tasks()
   {
-    return response()->json(['message' => 'Ok'], 200);
+    $query = Task::query();
+    $query->orderBy('final_date', 'asc');
+
+    return response()->json($query->with('responsible')->get(), 200);
   }
 
   public function processes()

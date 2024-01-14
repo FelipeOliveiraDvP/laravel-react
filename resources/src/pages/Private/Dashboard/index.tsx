@@ -10,12 +10,19 @@ import {
 } from "@/components/Processes";
 import { Process, ProcessListQuery } from "@/core/services/processes";
 import { DashboardCalendar, DashboardTaskCard } from "@/components/Dashboard";
+import {
+  useDashboardTasks,
+  useDashboardEvents,
+} from "@/core/services/dashboard";
 
 export default function DashboardPage() {
   const [params, setParams] = useState<ProcessListQuery>();
   const [debounced] = useDebouncedValue(params, 200);
   const [selected, setSelected] = useState<Process>();
   const [opened, { open, close }] = useDisclosure(false);
+
+  const { data: tasks } = useDashboardTasks();
+  const { data: events } = useDashboardEvents();
 
   return (
     <>
@@ -26,19 +33,20 @@ export default function DashboardPage() {
               <Text fw={700}>Agenda</Text>
               <AnchorLink href="/app/scheduler">Ver agenda</AnchorLink>
             </Group>
-            <DashboardCalendar />
+            <DashboardCalendar events={events || []} />
           </Paper>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6 }}>
           <Paper withBorder p="md">
             <Group justify="space-between" mb="md">
-              <Text fw={700}>Tarefas à fazer</Text>
+              <Text fw={700}>Próximas Tarefas</Text>
               <AnchorLink href="/app/tasks">Ver tarefas</AnchorLink>
             </Group>
             <Stack>
-              <DashboardTaskCard />
-              <DashboardTaskCard />
-              <DashboardTaskCard />
+              {tasks &&
+                tasks.map((task) => (
+                  <DashboardTaskCard key={task.id} task={task} />
+                ))}
             </Stack>
           </Paper>
         </Grid.Col>

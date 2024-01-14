@@ -1,8 +1,14 @@
-import { getFirstLetter } from "@/core/utils";
-import { Avatar, Group, Paper, Stack, Text } from "@mantine/core";
 import React from "react";
+import { Avatar, Group, Paper, Stack, Text } from "@mantine/core";
+import { getFirstLetter } from "@/core/utils";
+import { Task, taskStatus } from "@/core/services/tasks";
+import dayjs from "dayjs";
 
-export function DashboardTaskCard() {
+interface Props {
+  task: Task;
+}
+
+export function DashboardTaskCard({ task }: Props) {
   return (
     <Paper
       withBorder
@@ -14,18 +20,20 @@ export function DashboardTaskCard() {
       })}
     >
       <Stack gap="xs">
-        <Text fw={600}>Inventário Geral</Text>
+        <Text fw={600}>{task.title}</Text>
         <Group justify="space-between">
           <Group>
-            <Avatar c="blue.7">{getFirstLetter("Maria Clara")}</Avatar>
+            <Avatar c="blue.7">{getFirstLetter(task.responsible.name)}</Avatar>
             <div>
-              <Text fw={500}>Maria Clara</Text>
-              <Text c="dimmed">maria.clara@email.com</Text>
+              <Text fw={500}>{task.responsible.name}</Text>
+              <Text c="dimmed">{task.responsible.email}</Text>
             </div>
           </Group>
           <Stack gap="xs" ta="right">
-            <Text c="dimmed">12/01/2023</Text>
-            <Text c="dimmed">09:00</Text>
+            <Text>{taskStatus[task.status]}</Text>
+            <Text c="dimmed">
+              {dayjs(task.final_date).format("DD/MM/YYYY")}
+            </Text>
           </Stack>
         </Group>
       </Stack>
