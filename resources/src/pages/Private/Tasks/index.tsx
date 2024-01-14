@@ -20,6 +20,7 @@ import {
 } from "@/core/services/tasks";
 import { BaseQuery } from "@/core/types";
 import { AnchorLink } from "@/components/__commons";
+import { TasksFilters } from "@/components/Tasks/Filters";
 
 export default function TasksPage() {
   const [params, setParams] = useState<BaseQuery>();
@@ -29,7 +30,7 @@ export default function TasksPage() {
   const [opened, { open, close }] = useDisclosure(false);
   const [state, setState] = useState<TaskState>(initialTaskState);
   const reorderMutation = useReorderTask();
-  const { data } = useTasks(debounced);
+  const { data, refetch } = useTasks(debounced);
 
   async function handleReorderTasks(data: TaskReorderRequest) {
     await reorderMutation.mutateAsync(data);
@@ -87,15 +88,21 @@ export default function TasksPage() {
 
       setState((prev) => ({ ...prev, ...tasks }));
     }
-  }, [data]);
+  }, [data, debounced]);
 
   return (
     <Stack>
-      <Flex>
+      <Flex justify="space-between">
         <Breadcrumbs>
           <AnchorLink href="/app">Dashboard</AnchorLink>
           <Text fw="bolder">Tarefas</Text>
         </Breadcrumbs>
+        {/* <TasksFilters
+          onChange={(query) => {
+            setParams(query);
+            refetch();
+          }}
+        /> */}
       </Flex>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Group align="flex-start">

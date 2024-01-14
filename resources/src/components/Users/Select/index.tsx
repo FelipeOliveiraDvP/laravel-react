@@ -31,8 +31,6 @@ export function UserSelect({ selected, ...props }: Props) {
   return (
     <Select
       {...props}
-      label="Usuário"
-      placeholder="Selecione um usuário"
       data={options}
       onSearchChange={(value) => setParams({ name: value })}
     />
