@@ -15,11 +15,11 @@ export interface Customer {
     state: string;
     complement?: string | null;
   };
-  indication?: {
+  indication: {
     name: string;
     email: string;
     phone: string;
-  };
+  } | null;
   created_at: string;
   updated_at: string;
   deleted_at?: string | null;
@@ -38,14 +38,14 @@ export interface CustomerRequest {
     number: string;
     city: string;
     state: string;
-    complement?: string;
+    complement?: string | null;
   };
   is_indication?: boolean;
   indication?: {
     name: string;
     email: string;
     phone: string;
-  };
+  } | null;
 }
 
 export type CustomerListQuery = BaseQuery & {

@@ -45,7 +45,6 @@ export function UserModal({ user, ...props }: Props) {
   });
 
   async function handleSave(values: UserRequest) {
-    // form.setErrors({ email: "teste" });
     try {
       if (user) {
         await updateMutation.mutateAsync({ ...values, id: user.id });

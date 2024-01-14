@@ -1,5 +1,6 @@
-import axios, { AxiosRequestHeaders } from "axios";
-import { getAuthToken } from "@/core/providers";
+import axios, { AxiosError, AxiosRequestHeaders } from "axios";
+import { getAuthToken, removeAuthToken } from "@/core/providers";
+import { showError } from "@/core/utils";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -9,8 +10,6 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  console.log("AxiosReq: ", config);
-
   let newHeaders = {
     ...config.headers,
   };
@@ -29,6 +28,22 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.response.use((res) => res.data);
+api.interceptors.response.use(
+  (res) => res.data,
+  (error) => {
+    const { response } = error as AxiosError;
+
+    if (response?.status === 401) {
+      showError("Sua sessão expirou. Faça o login novamente.");
+      setTimeout(() => {
+        removeAuthToken();
+        window.location.href = "/";
+      }, 2000);
+      return;
+    }
+
+    return Promise.reject(error);
+  }
+);
 
 export default api;

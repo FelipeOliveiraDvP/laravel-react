@@ -20,8 +20,12 @@ import dayjs from "dayjs";
 import {
   Customer,
   CustomerRequest,
-  statesOptions,
+  useCreateCustomer,
+  useUpdateCustomer,
 } from "@/core/services/customers";
+import { getBrazilStateOptions } from "@/core/utils/getBrazilStateOptions";
+import { getFormErrors } from "@/core/utils";
+import { AxiosError } from "axios";
 
 type Props = ModalProps & {
   customer?: Customer;
@@ -33,9 +37,7 @@ const schema = Yup.object().shape({
   email: Yup.string()
     .email("Informe um e-mail válido")
     .required("Campo Obrigatório"),
-  phone: Yup.string()
-    .length(11, "Informe um telefone válido")
-    .required("Campo Obrigatório"),
+  phone: Yup.string().required("Campo Obrigatório"),
   birth_date: Yup.date()
     .required("Campo Obrigatório")
     .max(new Date(), "Você não pode selecionar uma data futura"),
@@ -51,6 +53,8 @@ const schema = Yup.object().shape({
 });
 
 export function CustomerModal({ customer, ...props }: Props) {
+  const createMutation = useCreateCustomer();
+  const updateMutation = useUpdateCustomer();
   const form = useForm<CustomerRequest>({
     validate: yupResolver(schema),
     initialValues: {
@@ -77,9 +81,17 @@ export function CustomerModal({ customer, ...props }: Props) {
   });
 
   async function handleSave(values: CustomerRequest) {
-    console.log("Cliente: ", values);
+    try {
+      if (customer) {
+        await updateMutation.mutateAsync({ ...values, id: customer.id });
+      } else {
+        await createMutation.mutateAsync(values);
+      }
 
-    handleClose();
+      handleClose();
+    } catch (error) {
+      form.setErrors({ ...getFormErrors(error as AxiosError) });
+    }
   }
 
   function handleClose() {
@@ -93,6 +105,13 @@ export function CustomerModal({ customer, ...props }: Props) {
         ...customer,
         birth_date: dayjs(customer.birth_date).toDate(),
         is_indication: !!customer.indication,
+        indication: customer.indication
+          ? { ...customer.indication }
+          : {
+              name: "",
+              email: "",
+              phone: "",
+            },
       });
     }
   }, [customer]);
@@ -201,7 +220,7 @@ export function CustomerModal({ customer, ...props }: Props) {
                 label="Estado"
                 placeholder="EX: SP"
                 withAsterisk
-                data={statesOptions}
+                data={getBrazilStateOptions()}
                 clearable
                 searchable
               />
@@ -221,6 +240,7 @@ export function CustomerModal({ customer, ...props }: Props) {
                 </Text>
                 <Switch
                   {...form.getInputProps("is_indication", { type: "checkbox" })}
+                  label="sim"
                 />
               </Flex>
             </Grid.Col>
@@ -259,8 +279,11 @@ export function CustomerModal({ customer, ...props }: Props) {
             <Button variant="outline" onClick={handleClose}>
               Cancelar
             </Button>
-            <Button type="submit" loading={false}>
-              Salvar Usuário
+            <Button
+              type="submit"
+              loading={createMutation.isLoading || updateMutation.isLoading}
+            >
+              Salvar Cliente
             </Button>
           </Group>
         </Stack>

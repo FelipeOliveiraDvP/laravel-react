@@ -1,9 +1,14 @@
 import React from "react";
 import { createColumnHelper } from "@tanstack/react-table";
-import { ActionIcon, Badge, Group } from "@mantine/core";
+import { ActionIcon, Badge, Group, Text } from "@mantine/core";
 import { Table } from "@/components/__commons";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
-import { Customer, CustomerListResponse } from "@/core/services/customers";
+import {
+  Customer,
+  CustomerListResponse,
+  useRemoveCustomer,
+} from "@/core/services/customers";
+import { modals } from "@mantine/modals";
 
 interface Props {
   data?: CustomerListResponse;
@@ -14,6 +19,17 @@ interface Props {
 
 export function CustomersList({ data, loading, onSelect, onPaginate }: Props) {
   const columnHelper = createColumnHelper<Customer>();
+  const removeMutation = useRemoveCustomer();
+
+  const confirmRemove = (obj: Customer) =>
+    modals.openConfirmModal({
+      title: "Remover Cliente",
+      children: <Text size="sm">Deseja realmente remover esse cliente?</Text>,
+      labels: { confirm: "Remover", cancel: "Cancelar" },
+      confirmProps: { loading: removeMutation.isLoading },
+      centered: true,
+      onConfirm: async () => await removeMutation.mutateAsync(obj),
+    });
 
   const columns = [
     columnHelper.accessor("name", {
@@ -27,6 +43,10 @@ export function CustomersList({ data, loading, onSelect, onPaginate }: Props) {
     columnHelper.accessor("phone", {
       id: "phone",
       header: "Telefone",
+    }),
+    columnHelper.accessor("email", {
+      id: "email",
+      header: "E-mail",
     }),
     columnHelper.accessor("indication", {
       id: "indication",
@@ -53,7 +73,7 @@ export function CustomersList({ data, loading, onSelect, onPaginate }: Props) {
           <ActionIcon
             variant="transparent"
             size="lg"
-            onClick={() => console.log("Remover: ", getValue())}
+            onClick={() => confirmRemove(getValue())}
           >
             <IconTrash />
           </ActionIcon>

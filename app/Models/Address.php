@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
   /**
+   * Disable default timestamps.
+   *
+   * @var boolean
+   */
+  public $timestamps = false;
+
+  /**
    * The table name.
    *
    * @var array<int, string>

@@ -44,16 +44,16 @@ class Customer extends Model
   /**
    * Get the customer address.
    */
-  public function address(): HasOne
+  public function address()
   {
-    return $this->hasOne(Address::class);
+    return $this->belongsTo(Address::class);
   }
 
   /**
    * Get the customer indication.
    */
-  public function indication(): HasOne
+  public function indication()
   {
-    return $this->hasOne(Indication::class);
+    return $this->belongsTo(Indication::class);
   }
 }
