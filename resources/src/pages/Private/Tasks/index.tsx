@@ -10,11 +10,13 @@ import { useDebouncedValue, useDisclosure } from "@mantine/hooks";
 import { TaskBoard, TaskCard, TaskModal } from "@/components/Tasks";
 import {
   Task,
+  TaskReorderRequest,
   TaskState,
   TaskStatusType,
   initialTaskState,
-  mockData,
   taskStatus,
+  useReorderTask,
+  useTasks,
 } from "@/core/services/tasks";
 import { BaseQuery } from "@/core/types";
 import { AnchorLink } from "@/components/__commons";
@@ -26,11 +28,17 @@ export default function TasksPage() {
   const [status, setStatus] = useState<TaskStatusType>();
   const [opened, { open, close }] = useDisclosure(false);
   const [state, setState] = useState<TaskState>(initialTaskState);
+  const reorderMutation = useReorderTask();
+  const { data } = useTasks(debounced);
+
+  async function handleReorderTasks(data: TaskReorderRequest) {
+    await reorderMutation.mutateAsync(data);
+  }
 
   const getStatus = (location: DraggableLocation | null) =>
     location?.droppableId as TaskStatusType;
 
-  const handleDragEnd: OnDragEndResponder = ({ source, destination }) => {
+  const handleDragEnd: OnDragEndResponder = async ({ source, destination }) => {
     if (!destination) return;
 
     const sourceArray = [...state[getStatus(source)]];
@@ -55,23 +63,31 @@ export default function TasksPage() {
         [getStatus(source)]: sourceArray,
       }));
     }
+
+    await handleReorderTasks({
+      task_id: sourceTask.id,
+      target_status: destination.droppableId as TaskStatusType,
+      target_index: destination.index,
+    });
   };
 
   useEffect(() => {
-    const tasks = mockData.reduce((acc, obj) => {
-      const { status, ...rest } = obj;
+    if (data) {
+      const tasks = data.reduce((acc, obj) => {
+        const { status, ...rest } = obj;
 
-      if (!(acc as TaskState)[status]) {
-        (acc as TaskState)[status] = [];
-      }
+        if (!(acc as TaskState)[status]) {
+          (acc as TaskState)[status] = [];
+        }
 
-      (acc as TaskState)[status].push({ ...rest, status });
+        (acc as TaskState)[status].push({ ...rest, status });
 
-      return acc;
-    }, {});
+        return acc;
+      }, {});
 
-    setState((prev) => ({ ...prev, ...tasks }));
-  }, []);
+      setState((prev) => ({ ...prev, ...tasks }));
+    }
+  }, [data]);
 
   return (
     <Stack>

@@ -18,8 +18,8 @@ class AuthController extends Controller
   public function login(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'email' => 'required|string|email',
-      'password' => 'required|string',
+      'email'     => 'required|string|email',
+      'password'  => 'required|string',
     ]);
 
     if ($validator->fails()) {
@@ -71,9 +71,9 @@ class AuthController extends Controller
 
     ResetTokens::where('email', '=', $request->email)->delete();
     ResetTokens::insert([
-      'email' => $request->email,
-      'token' => $token,
-      'created_at' => Carbon::now()->addDays(3)->toDateString()
+      'email'       => $request->email,
+      'token'       => $token,
+      'created_at'  => Carbon::now()->addDays(3)->toDateString()
     ]);
 
     Mail::to($request->email)->send(new ResetEmail($token));
@@ -109,8 +109,8 @@ class AuthController extends Controller
   public function reset(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'password' => 'required|string|min:8|confirmed',
-      'token' => 'required|exists:password_reset_tokens,token',
+      'password'  => 'required|string|min:8|confirmed',
+      'token'     => 'required|exists:password_reset_tokens,token',
     ]);
 
     if ($validator->fails()) {
@@ -123,12 +123,12 @@ class AuthController extends Controller
 
     $user->update([
       'is_active' => true,
-      'password' => $hashed_password
+      'password'  => $hashed_password
     ]);
 
     $token = Auth::guard('api')->attempt([
-      'email' => $user->email,
-      'password' => $request->password
+      'email'     => $user->email,
+      'password'  => $request->password
     ]);
 
     ResetTokens::where('token', '=', $request->token)->delete();

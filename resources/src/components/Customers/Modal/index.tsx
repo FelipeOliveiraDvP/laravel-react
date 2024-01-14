@@ -15,7 +15,6 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm, yupResolver } from "@mantine/form";
-import { useMask } from "@react-input/mask";
 import * as Yup from "yup";
 import dayjs from "dayjs";
 import {
@@ -60,10 +59,6 @@ const schema = Yup.object().shape({
 export function CustomerModal({ customer, ...props }: Props) {
   const createMutation = useCreateCustomer();
   const updateMutation = useUpdateCustomer();
-  const cpfMaskRef = useMask({
-    mask: "___.___.___-__",
-    replacement: { _: /\d/ },
-  });
 
   const form = useForm<CustomerRequest>({
     validate: yupResolver(schema),

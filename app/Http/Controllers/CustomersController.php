@@ -30,20 +30,20 @@ class CustomersController extends Controller
   public function store(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'name'    => 'required|string',
-      'document' => 'required|cpf',
-      'email' => 'required|string|email',
-      'phone' => 'required|celular_com_ddd',
-      'birth_date' => 'required|date',
-      'address.zip' => 'required|size:8',
-      'address.street' => 'required|string',
-      'address.number' => 'required|string',
-      'address.city' => 'required|string',
-      'address.state' => 'required|string|size:2|uppercase',
-      'is_indication' => 'boolean',
-      'indication.name' => 'required_if:is_indication,true',
-      'indication.email' => 'required_if:is_indication,true',
-      'indication.phone' => 'required_if:is_indication,true',
+      'name'              => 'required|string',
+      'document'          => 'required|cpf',
+      'email'             => 'required|string|email',
+      'phone'             => 'required|celular_com_ddd',
+      'birth_date'        => 'required|date',
+      'address.zip'       => 'required|size:8',
+      'address.street'    => 'required|string',
+      'address.number'    => 'required|string',
+      'address.city'      => 'required|string',
+      'address.state'     => 'required|string|size:2|uppercase',
+      'is_indication'     => 'boolean',
+      'indication.name'   => 'required_if:is_indication,true',
+      'indication.email'  => 'required_if:is_indication,true',
+      'indication.phone'  => 'required_if:is_indication,true',
     ]);
 
     if ($validator->fails()) {
@@ -68,12 +68,12 @@ class CustomersController extends Controller
     ]);
 
     Customer::create([
-      'name' => $request->name,
-      'document' => $request->document,
-      'email' => $request->email,
-      'phone' => $request->phone,
-      'birth_date' => $request->birth_date,
-      'address_id' => $address->id,
+      'name'          => $request->name,
+      'document'      => $request->document,
+      'email'         => $request->email,
+      'phone'         => $request->phone,
+      'birth_date'    => $request->birth_date,
+      'address_id'    => $address->id,
       'indication_id' => $request->is_indication ? $indication->id : null,
     ]);
 
@@ -91,20 +91,20 @@ class CustomersController extends Controller
     }
 
     $validator = Validator::make($request->all(), [
-      'name'    => 'required|string',
-      'document' => 'required|cpf',
-      'email' => 'required|string|email',
-      'phone' => 'required|celular_com_ddd',
-      'birth_date' => 'required|date',
-      'address.zip' => 'required|size:8',
-      'address.street' => 'required|string',
-      'address.number' => 'required|string',
-      'address.city' => 'required|string',
-      'address.state' => 'required|string|size:2|uppercase',
-      'is_indication' => 'boolean',
-      'indication.name' => 'required_if:is_indication,true',
-      'indication.email' => 'required_if:is_indication,true',
-      'indication.phone' => 'required_if:is_indication,true',
+      'name'              => 'required|string',
+      'document'          => 'required|cpf',
+      'email'             => 'required|string|email',
+      'phone'             => 'required|celular_com_ddd',
+      'birth_date'        => 'required|date',
+      'address.zip'       => 'required|size:8',
+      'address.street'    => 'required|string',
+      'address.number'    => 'required|string',
+      'address.city'      => 'required|string',
+      'address.state'     => 'required|string|size:2|uppercase',
+      'is_indication'     => 'boolean',
+      'indication.name'   => 'required_if:is_indication,true',
+      'indication.email'  => 'required_if:is_indication,true',
+      'indication.phone'  => 'required_if:is_indication,true',
     ]);
 
     if ($validator->fails()) {

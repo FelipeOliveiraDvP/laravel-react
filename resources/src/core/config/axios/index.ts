@@ -38,7 +38,7 @@ api.interceptors.response.use(
       setTimeout(() => {
         removeAuthToken();
         window.location.href = "/";
-      }, 2000);
+      }, 1000);
       return;
     }
 

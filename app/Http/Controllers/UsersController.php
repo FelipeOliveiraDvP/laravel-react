@@ -38,8 +38,8 @@ class UsersController extends Controller
   public function store(Request $request)
   {
     $validator = Validator::make($request->all(), [
-      'name' => 'required|string',
-      'email' => 'required|string|email|unique:users,email',
+      'name'      => 'required|string',
+      'email'     => 'required|string|email|unique:users,email',
       'is_active' => 'boolean'
     ]);
 
@@ -59,9 +59,9 @@ class UsersController extends Controller
 
     ResetTokens::where('email', '=', $request->email)->delete();
     ResetTokens::insert([
-      'email' => $request->email,
-      'token' => $token,
-      'created_at' => Carbon::now()->addDays(3)->toDateString()
+      'email'       => $request->email,
+      'token'       => $token,
+      'created_at'  => Carbon::now()->addDays(3)->toDateString()
     ]);
 
     Mail::to($request->email)->send(new ResetEmail($token));
@@ -82,8 +82,8 @@ class UsersController extends Controller
     }
 
     $validator = Validator::make($request->all(), [
-      'name' => 'string',
-      'email' => 'email|unique:users,email',
+      'name'      => 'string',
+      'email'     => 'email|unique:users,email',
       'is_active' => 'boolean',
     ]);
 
