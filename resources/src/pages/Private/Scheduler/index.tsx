@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { Breadcrumbs, Flex, Grid, Paper, Stack, Text } from "@mantine/core";
-import { Calendar, ScheduleForm } from "@/components/Schedule";
+import { Schedule, ScheduleForm } from "@/components/Schedule";
 
 import { AnchorLink } from "@/components/__commons";
+import { Event, EventListQuery, useEvents } from "@/core/services/schedule";
 
 export default function SchedulerPage() {
+  const [params, setParams] = useState<EventListQuery>();
+  const [selected, setSelected] = useState<Event>();
+  const { data } = useEvents(params);
+
   return (
     <Stack>
       <Flex>
@@ -14,14 +19,21 @@ export default function SchedulerPage() {
         </Breadcrumbs>
       </Flex>
       <Grid>
-        <Grid.Col span={{ base: 12, md: 3 }}>
+        <Grid.Col span={{ base: 12, md: 4 }}>
           <Paper withBorder shadow="md" p="sm" radius="sm">
-            <ScheduleForm />
+            <ScheduleForm
+              event={selected}
+              onClear={() => setSelected(undefined)}
+            />
           </Paper>
         </Grid.Col>
-        <Grid.Col span={{ base: 12, md: 9 }}>
+        <Grid.Col span={{ base: 12, md: 8 }}>
           <Paper withBorder shadow="md" p="sm" radius="sm">
-            <Calendar />
+            <Schedule
+              events={data || []}
+              onChange={setParams}
+              onSelect={setSelected}
+            />
           </Paper>
         </Grid.Col>
       </Grid>

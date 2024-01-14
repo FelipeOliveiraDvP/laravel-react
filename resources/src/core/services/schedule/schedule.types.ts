@@ -2,7 +2,7 @@ export interface Event {
   id: number;
   title: string;
   color: string;
-  location: string | null;
+  location: string;
   start_date: string;
   final_date: string;
   responsible: {
@@ -12,17 +12,17 @@ export interface Event {
   };
 }
 
-export interface ListEventsQuery {
-  start_date: string;
-  final_date: string;
+export interface EventListQuery {
+  start_date?: string;
+  final_date?: string;
 }
 
-export interface EventQuery {
+export interface EventRequest {
   id?: number;
   title: string;
   color: string;
-  location?: string;
-  start_date: string;
-  final_date: string;
-  responsible_id: number;
+  location: string;
+  start_date: Date | null;
+  final_date: Date | null;
+  responsible_id: number | null;
 }
