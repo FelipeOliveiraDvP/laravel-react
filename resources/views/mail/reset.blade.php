@@ -18,7 +18,7 @@
     <p>Clique no link abaixo para acessar a página de recuperação de senha. Caso não tenha sido você que realizou essa solicitação, apenas deseconsidere essa mensagem.</p>
     <p>
       <a href="{{ env('APP_URL') }}/reset/{{ $token }}">
-        {{ env('APP_URL') }}/reset/{{ $token }}
+        {{ env('APP_URL') }}reset/{{ $token }}
       </a>
     </p>
     {{ env('APP_NAME') }} - Todos os direitos reservados

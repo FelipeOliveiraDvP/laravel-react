@@ -18,7 +18,7 @@ return new class extends Migration
       $table->integer('legal_type', false, true);
       $table->string('tribunal');
       $table->boolean('is_probono')->default(false);
-      $table->double('amount', 5, 2, true)->default(0);
+      $table->double('amount', 7, 2, true)->default(0);
       $table->date('final_date')->nullable();
       $table->foreignId('customer_id');
       $table->foreignId('user_id');
